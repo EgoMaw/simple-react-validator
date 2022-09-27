@@ -1,8 +1,0 @@
-node_modules/
-.yarn/*
-.vscode/
-.idea/
-docs/
-.pnp.cjs
-.pnp.loader.mjs
-.github
