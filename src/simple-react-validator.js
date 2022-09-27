@@ -1,4 +1,4 @@
-import { lowerCase } from "lodash-es";
+import { lowerCase } from "lodash";
 
 class SimpleReactValidator {
   static version = '1.0.0';

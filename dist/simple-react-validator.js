@@ -10,7 +10,7 @@
 }(this, function(React) {
 "use strict";
 
-var _lodashEs = require("lodash-es");
+var _lodash = require("lodash");
 
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
@@ -130,7 +130,7 @@ var SimpleReactValidator = /*#__PURE__*/function () {
       },
       humanizeFieldName: function humanizeFieldName(field) {
         // supports snake_case or camelCase
-        return (0, _lodashEs.lowerCase)(field);
+        return (0, _lodash.lowerCase)(field);
       },
       element: function element(message, options) {
         var element = options.element || this.parent.element;

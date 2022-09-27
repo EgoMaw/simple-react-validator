@@ -1,12 +1,12 @@
 {
   "name": "@egomaw/react-validator",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A simple react form validator inspired by Laravel validation.",
-  "exports": "./dist/simple-react-validator.min.js",
-  "types": "src/index.d.ts",
+  "main": "dist/simple-react-validator.min.js",
   "type": "module",
+  "types": "src/index.d.ts",
   "dependencies": {
-    "lodash-es": "^4.17.21"
+    "lodash": "^4.17.21"
   },
   "devDependencies": {
     "@babel/core": "^7.19.1",
@@ -41,7 +41,7 @@
     "form-validator",
     "react-validator"
   ],
-  "author": "Kimon \"EgoMaw\" <egomaw@dedicatedmc.io>",
+  "author": "Kimon \"EgoMaw\" <evolverebxgsafe@gmail.com>",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/EgoMaw/simple-react-validator/issues"
