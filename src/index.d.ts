@@ -9,6 +9,7 @@ interface IOptions {
   autoForceUpdate?: any;
   element?: any;
   locale?: string;
+  shouldHumanizeField?: boolean;
 }
 
 type IRule = 'accepted' | 'after' | 'after_or_equal' | 'alpha' | 'alpha_space' | 'alpha_num' | ' alpha_num_space' | 'alpha_num_dash' | 'alpha_num_dash_space' | 'array' | 'before' | 'before_or_equal' | 'between' | 'boolean' | 'card_exp' | 'card_num' | 'currency' | 'date' | 'date_equals' | 'email' | 'in' | 'integer' | 'max' | 'min' | 'not_in' | 'not_regex' | 'numeric' | 'phone' | 'regex' | 'required' | 'size' | 'string' | 'typeof' | 'url';
@@ -44,11 +45,12 @@ interface IHelpers {
 declare class SimpleReactValidator {
   constructor(options?: IOptions);
   fields: IObject;
+  savedFields: IObject;
   visibleFields: any[];
   errorMessages: IObject;
   messagesShown: boolean;
   rules: IRules;
-
+  shouldHumanizeFields: IOptions["shouldHumanizeField"];
   messages: IOptions["messages"];
   className: IOptions["className"];
   autoForceUpdate: IOptions["autoForceUpdate"];
@@ -57,6 +59,8 @@ declare class SimpleReactValidator {
   getErrorMessages(): IObject;
   showMessages(): void;
   hideMessages(): void;
+  addField(field: string, validations: any): void;
+  validateSavedAgainst(values: IObject[], options?: IObject): boolean;
   showMessageFor(field: string): void;
   hideMessageFor(field: string): void;
   allValid(): boolean;

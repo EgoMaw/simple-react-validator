@@ -1,4 +1,4 @@
-// Simple React Validator v1.6.1 | Created By Dockwa | MIT License | 2017 - Present
+// Simple React Validator v1.0.0 | Created By Dockwa | Edited by EgoMaw | MIT License | 2017 - Present
 ;(function(root, factory) {
   if (typeof define === 'function' && define.amd) {
     define(['react'], factory);
@@ -9,6 +9,8 @@
   }
 }(this, function(React) {
 "use strict";
+
+var _lodashEs = require("lodash-es");
 
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
@@ -24,23 +26,24 @@ function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o =
 
 function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 var SimpleReactValidator = /*#__PURE__*/function () {
   function SimpleReactValidator() {
-    var _this = this;
+    var _this = this,
+        _this$shouldHumanizeF;
 
     var _options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
@@ -95,11 +98,13 @@ var SimpleReactValidator = /*#__PURE__*/function () {
         }
       },
       getOptions: function getOptions(validation) {
+        var params;
+
         if (validation === Object(validation) && !!Object.values(validation).length) {
-          var params = Object.values(validation)[0];
+          params = Object.values(validation)[0];
           return Array.isArray(params) ? params : [params];
         } else {
-          var params = validation.split(':');
+          params = validation.split(':');
           return params.length > 1 ? params[1].split(',') : [];
         }
       },
@@ -119,12 +124,13 @@ var SimpleReactValidator = /*#__PURE__*/function () {
       },
       message: function message(rule, field, options, rules) {
         options.messages = options.messages || {};
+        var shouldHumanize = options.shouldHumanizeField || this.parent.shouldHumanizeFields;
         var message = options.messages[rule] || options.messages["default"] || this.parent.messages[rule] || this.parent.messages["default"] || rules[rule].message;
-        return message.replace(':attribute', this.humanizeFieldName(field));
+        return message.replace(':attribute', shouldHumanize ? this.humanizeFieldName(field) : field);
       },
       humanizeFieldName: function humanizeFieldName(field) {
         // supports snake_case or camelCase
-        return field.replace(/([A-Z])/g, ' $1').replace(/_/g, ' ').toLowerCase();
+        return (0, _lodashEs.lowerCase)(field);
       },
       element: function element(message, options) {
         var element = options.element || this.parent.element;
@@ -158,9 +164,11 @@ var SimpleReactValidator = /*#__PURE__*/function () {
     });
 
     this.fields = {};
+    this.savedFields = {};
     this.visibleFields = [];
     this.errorMessages = {};
     this.messagesShown = false;
+    (_this$shouldHumanizeF = this.shouldHumanizeFields) !== null && _this$shouldHumanizeF !== void 0 ? _this$shouldHumanizeF : this.shouldHumanizeFields = false;
     this.rules = _objectSpread({
       accepted: {
         message: 'The :attribute must be accepted.',
@@ -277,7 +285,7 @@ var SimpleReactValidator = /*#__PURE__*/function () {
       currency: {
         message: 'The :attribute must be a valid currency.',
         rule: function rule(val) {
-          return _this.helpers.testRegex(val, /^\$?(\d{1,3})(\,?\d{3})*\.?\d{0,2}$/);
+          return _this.helpers.testRegex(val, /^[\$£€¥]?(\d{1,3})(\,?\d{3})*\.?\d{0,2}$/);
         }
       },
       date: {
@@ -402,6 +410,12 @@ var SimpleReactValidator = /*#__PURE__*/function () {
         message: 'The :attribute must be a url.',
         rule: function rule(val) {
           return _this.helpers.testRegex(val, /^https?:\/\/[-a-z0-9@:%._\+~#=]{1,256}\.[a-z0-9()]{2,13}\b([-a-z0-9()@:%_\+.~#?&//=]*)$/i);
+        }
+      },
+      nullable: {
+        message: 'The :attribute may be null.',
+        rule: function rule(val) {
+          return val === null;
         }
       }
     }, _options.validators || {}); // apply language
@@ -533,6 +547,18 @@ var SimpleReactValidator = /*#__PURE__*/function () {
       return true;
     }
   }, {
+    key: "addField",
+    value: function addField(field, validations) {
+      this.errorMessages[field] = null;
+      this.fields[field] = true;
+
+      if (!Array.isArray(validations)) {
+        validations = validations.split('|');
+      }
+
+      this.savedFields[field] = validations;
+    }
+  }, {
     key: "message",
     value: function message(field, inputValue, validations) {
       var options = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : {};
@@ -579,6 +605,48 @@ var SimpleReactValidator = /*#__PURE__*/function () {
         _iterator2.f();
       }
     }
+  }, {
+    key: "validateSavedAgainst",
+    value: function validateSavedAgainst(values) {
+      var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+      var rules = options.validators ? _objectSpread(_objectSpread({}, this.rules), options.validators) : this.rules;
+
+      for (var field in this.savedFields) {
+        var _iterator3 = _createForOfIteratorHelper(this.savedFields[field]),
+            _step3;
+
+        try {
+          for (_iterator3.s(); !(_step3 = _iterator3.n()).done;) {
+            var validation = _step3.value;
+
+            var _this$helpers$normali5 = this.helpers.normalizeValues(inputValue, validation),
+                _this$helpers$normali6 = _slicedToArray(_this$helpers$normali5, 3),
+                value = _this$helpers$normali6[0],
+                rule = _this$helpers$normali6[1],
+                params = _this$helpers$normali6[2];
+
+            if (!this.helpers.passes(rule, value, params, rules)) {
+              this.fields[field] = false;
+              var message = this.helpers.message(rule, field, options, rules);
+
+              if (params.length > 0 && rules[rule].hasOwnProperty('messageReplace')) {
+                message = rules[rule].messageReplace(message, params);
+              }
+
+              this.errorMessages[field] = message;
+
+              if (this.messagesShown || this.visibleFields.includes(field)) {
+                return this.helpers.element(message, options);
+              }
+            }
+          }
+        } catch (err) {
+          _iterator3.e(err);
+        } finally {
+          _iterator3.f();
+        }
+      }
+    }
   }], [{
     key: "addLocale",
     value: function addLocale(lang, messages) {
@@ -589,7 +657,7 @@ var SimpleReactValidator = /*#__PURE__*/function () {
   return SimpleReactValidator;
 }();
 
-_defineProperty(SimpleReactValidator, "version", '1.5.1');
+_defineProperty(SimpleReactValidator, "version", '1.0.0');
 
 _defineProperty(SimpleReactValidator, "locales", {
   'en': {}

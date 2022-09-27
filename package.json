@@ -1,48 +1,51 @@
 {
-  "name": "simple-react-validator",
-  "version": "1.6.1",
+  "name": "@egomaw/react-validator",
+  "version": "1.0.0",
   "description": "A simple react form validator inspired by Laravel validation.",
-  "main": "dist/simple-react-validator.min.js",
+  "exports": "./dist/simple-react-validator.min.js",
   "types": "src/index.d.ts",
-  "dependencies": {},
+  "type": "module",
+  "dependencies": {
+    "lodash-es": "^4.17.21"
+  },
   "devDependencies": {
-    "@babel/core": "^7.2.0",
-    "@babel/plugin-proposal-class-properties": "^7.8.3",
-    "@babel/plugin-proposal-object-rest-spread": "^7.0.0",
-    "@babel/preset-env": "^7.8.3",
-    "camelcase": "^6.0.0",
+    "@babel/core": "^7.19.1",
+    "@babel/plugin-proposal-class-properties": "^7.18.6",
+    "@babel/plugin-proposal-object-rest-spread": "^7.18.9",
+    "@babel/preset-env": "^7.19.1",
     "gulp": "^4.0.2",
     "gulp-babel": "^8.0.0",
-    "gulp-inject-string": "^1.1.1",
+    "gulp-inject-string": "^1.1.2",
     "gulp-rename": "^2.0.0",
-    "gulp-uglify": "^3.0.1",
+    "gulp-uglify": "^3.0.2",
     "gulp-umd": "^2.0.0",
-    "gulp-util": "^3.0.8",
-    "natives": "^1.1.6",
-    "path": "^0.12.7"
+    "gulp-util": "^3.0.8"
+  },
+  "engines": {
+    "node": ">=14.16"
   },
   "scripts": {
-    "gulp": "./node_modules/.bin/gulp",
-    "dist": "gulp dist",
-    "watch": "gulp watch",
-    "prepare": "npm run dist",
-    "serve": "python -m SimpleHTTPServer 3000"
+    "dist": "yarn gulp dist",
+    "watch": "yarn gulp watch",
+    "prepare": "yarn run dist",
+    "serve": "python -m http.server 3000"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/dockwa/simple-react-validator.git"
+    "url": "git+https://github.com/EgoMaw/simple-react-validator.git"
   },
   "keywords": [
     "react",
     "validator",
     "form",
     "form-validator",
-    "simple-react-validator"
+    "react-validator"
   ],
-  "author": "Stuart Yamartino",
+  "author": "Kimon \"EgoMaw\" <egomaw@dedicatedmc.io>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/dockwa/simple-react-validator/issues"
+    "url": "https://github.com/EgoMaw/simple-react-validator/issues"
   },
-  "homepage": "https://github.com/dockwa/simple-react-validator#readme"
+  "homepage": "https://github.com/EgoMaw/simple-react-validator#readme",
+  "packageManager": "yarn@3.2.3"
 }

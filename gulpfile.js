@@ -5,17 +5,19 @@ $ npm run gulp watch
 **************************************/
 
 // include plug-ins
-var gulp           = require('gulp');
-var umd            = require('gulp-umd');
-var inject         = require('gulp-inject-string')
-var rename         = require('gulp-rename');
-var uglify         = require('gulp-uglify');
-var babel          = require('gulp-babel');
-var path           = require('path');
-var camelCase      = require('camelcase');
-var HEADER_COMMENT = '// Simple React Validator v1.6.1 | Created By Dockwa | MIT License | 2017 - Present\n';
+import gulp from 'gulp';
+import umd from 'gulp-umd';
+import inject from 'gulp-inject-string';
+import rename from 'gulp-rename';
+import uglify from 'gulp-uglify';
+import babel from 'gulp-babel';
+import path from 'node:path';
+import { camelCase, upperFirst } from 'lodash-es';
+import gutil from 'gulp-util';
 
-var gutil = require('gulp-util');
+const HEADER_COMMENT = '// Simple React Validator v1.0.0 | Created By Dockwa | Edited by EgoMaw | MIT License | 2017 - Present\n';
+
+
 
 function build() {
   return gulp.src('./src/simple-react-validator.js')
@@ -92,13 +94,10 @@ function watch() {
   gulp.watch('src/*', buildLocales);
 }
 
-var dist = gulp.series(build, buildLocales)
+const dist = gulp.series(build, buildLocales);
 
-exports.build = build;
-exports.buildLocales = buildLocales;
-exports.watch = watch;
-exports.dist = dist;
+export { build, buildLocales, watch, dist}
 
 function capitalizeFilename(file) {
-  return camelCase(path.basename(file.path, '.js'), {pascalCase: true});
+  return upperFirst(camelCase(path.basename(file.path, '.js')));
 }

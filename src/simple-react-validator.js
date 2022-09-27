@@ -1,5 +1,7 @@
+import { lowerCase } from "lodash-es";
+
 class SimpleReactValidator {
-  static version = '1.5.1';
+  static version = '1.0.0';
   static locales = {'en': {}};
 
   static addLocale(lang, messages) {
@@ -8,9 +10,11 @@ class SimpleReactValidator {
 
   constructor(options = {}) {
     this.fields = {};
+    this.savedFields = {};
     this.visibleFields = [];
     this.errorMessages = {};
     this.messagesShown = false;
+    this.shouldHumanizeFields ??= false;
     this.rules = {
       accepted             : {message: 'The :attribute must be accepted.',                                      rule: val => val === true, required: true},
       after                : {message: 'The :attribute must be after :date.',                                   rule: (val, params) => this.helpers.momentInstalled() && moment.isMoment(val) && val.isAfter(params[0], 'day'), messageReplace: (message, params) => message.replace(':date', params[0].format('MM/DD/YYYY'))},
@@ -46,6 +50,7 @@ class SimpleReactValidator {
       string               : {message: 'The :attribute must be a string.',                                      rule: val => typeof(val) === typeof('string')},
       typeof               : {message: 'The :attribute is not the correct type of :type.',                      rule: (val, params) => typeof(val) === typeof(params[0]), messageReplace: (message, params) => message.replace(':type', typeof(params[0]))},
       url                  : {message: 'The :attribute must be a url.',                                         rule: val => this.helpers.testRegex(val,/^https?:\/\/[-a-z0-9@:%._\+~#=]{1,256}\.[a-z0-9()]{2,13}\b([-a-z0-9()@:%_\+.~#?&//=]*)$/i)},
+      nullable             : { message: 'The :attribute may be null.',                                          rule: val => val === null},
       ...(options.validators || {}),
     };
 
@@ -139,7 +144,7 @@ class SimpleReactValidator {
     if (!Array.isArray(validations)) {
       validations = validations.split('|');
     }
-    var rules = options.validators ? {...this.rules, ...options.validators} : this.rules;
+    const rules = options.validators ? {...this.rules, ...options.validators} : this.rules;
     for (let validation of validations) {
       let [value, rule, params] = this.helpers.normalizeValues(inputValue, validation);
       if (!this.helpers.passes(rule, value, params, rules)) {
@@ -149,13 +154,22 @@ class SimpleReactValidator {
     return true;
   }
 
+  addField(field, validations) {
+    this.errorMessages[field] = null;
+    this.fields[field] = true;
+    if (!Array.isArray(validations)) {
+      validations = validations.split('|');
+    }
+    this.savedFields[field] = validations;
+  }
+
   message(field, inputValue, validations, options = {}) {
     this.errorMessages[field] = null;
     this.fields[field] = true;
     if (!Array.isArray(validations)) {
       validations = validations.split('|');
     }
-    var rules = options.validators ? {...this.rules, ...options.validators} : this.rules;
+    const rules = options.validators ? {...this.rules, ...options.validators} : this.rules;
     for (let validation of validations) {
       let [value, rule, params] = this.helpers.normalizeValues(inputValue, validation);
       if (!this.helpers.passes(rule, value, params, rules)) {
@@ -169,6 +183,28 @@ class SimpleReactValidator {
         this.errorMessages[field] = message;
         if (this.messagesShown || this.visibleFields.includes(field)) {
           return this.helpers.element(message, options);
+        }
+      }
+    }
+  }
+
+  validateSavedAgainst(values, options = {}) {
+    const rules = options.validators ? {...this.rules, ...options.validators} : this.rules;
+    for (const field in this.savedFields) {
+      for (let validation of this.savedFields[field]) {
+        let [value, rule, params] = this.helpers.normalizeValues(inputValue, validation);
+        if (!this.helpers.passes(rule, value, params, rules)) {
+          this.fields[field] = false;
+          let message = this.helpers.message(rule, field, options, rules);
+
+          if (params.length > 0 && rules[rule].hasOwnProperty('messageReplace')) {
+            message = rules[rule].messageReplace(message, params);
+          }
+
+          this.errorMessages[field] = message;
+          if (this.messagesShown || this.visibleFields.includes(field)) {
+            return this.helpers.element(message, options);
+          }
         }
       }
     }
@@ -209,11 +245,12 @@ class SimpleReactValidator {
     },
 
     getOptions(validation) {
+      let params;
       if (validation === Object(validation) && !!Object.values(validation).length) {
-        var params = Object.values(validation)[0];
+        params = Object.values(validation)[0];
         return Array.isArray(params) ? params : [params];
       } else {
-        var params = validation.split(':');
+        params = validation.split(':');
         return params.length > 1 ? params[1].split(',') : [];
       }
     },
@@ -240,17 +277,18 @@ class SimpleReactValidator {
 
     message(rule, field, options, rules) {
       options.messages = options.messages || {};
-      var message = options.messages[rule] || options.messages.default || this.parent.messages[rule] || this.parent.messages.default || rules[rule].message;
-      return message.replace(':attribute', this.humanizeFieldName(field));
+      const shouldHumanize = options.shouldHumanizeField || this.parent.shouldHumanizeFields;
+      const message = options.messages[rule] || options.messages.default || this.parent.messages[rule] || this.parent.messages.default || rules[rule].message;
+      return message.replace(':attribute', shouldHumanize ? this.humanizeFieldName(field): field);
     },
 
     humanizeFieldName(field) {
       // supports snake_case or camelCase
-      return field.replace( /([A-Z])/g, ' $1' ).replace(/_/g, ' ').toLowerCase();
+      return lowerCase(field);
     },
 
     element(message, options) {
-      var element = options.element || this.parent.element;
+      const element = options.element || this.parent.element;
       return element(message, options.className);
     },
 
