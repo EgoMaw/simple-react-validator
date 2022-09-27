@@ -60,7 +60,7 @@ declare class SimpleReactValidator {
   showMessages(): void;
   hideMessages(): void;
   addField(field: string, validations: any): void;
-  validateSavedAgainst(values: IObject[], options?: IObject): boolean;
+  validateSavedAgainst(values: IObject, options?: IObject): boolean;
   showMessageFor(field: string): void;
   hideMessageFor(field: string): void;
   allValid(): boolean;

@@ -192,7 +192,7 @@ class SimpleReactValidator {
     const rules = options.validators ? {...this.rules, ...options.validators} : this.rules;
     for (const field in this.savedFields) {
       for (let validation of this.savedFields[field]) {
-        let [value, rule, params] = this.helpers.normalizeValues(inputValue, validation);
+        let [value, rule, params] = this.helpers.normalizeValues(values[field], validation);
         if (!this.helpers.passes(rule, value, params, rules)) {
           this.fields[field] = false;
           let message = this.helpers.message(rule, field, options, rules);

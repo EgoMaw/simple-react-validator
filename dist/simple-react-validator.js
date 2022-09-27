@@ -619,7 +619,7 @@ var SimpleReactValidator = /*#__PURE__*/function () {
           for (_iterator3.s(); !(_step3 = _iterator3.n()).done;) {
             var validation = _step3.value;
 
-            var _this$helpers$normali5 = this.helpers.normalizeValues(inputValue, validation),
+            var _this$helpers$normali5 = this.helpers.normalizeValues(values[field], validation),
                 _this$helpers$normali6 = _slicedToArray(_this$helpers$normali5, 3),
                 value = _this$helpers$normali6[0],
                 rule = _this$helpers$normali6[1],
