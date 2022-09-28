@@ -14,6 +14,11 @@
 
 [![Powered by Dockwa](https://raw.githubusercontent.com/dockwa/openpixel/dockwa/by-dockwa.png)](https://engineering.dockwa.com/)
 
+# Fork Information
+This fork aims to fix a few personal annoyances I have with the original project as well as get closer to matching Laravel's validations because that's what I need out of this project.   
+Feel free to come along for the journey!  
+This fork is not endorsed or related to the original project, which you can find at https://github.com/dockwa/simple-react-validator.
+
 # About
 Simple React Validator is exactly as it sounds. We wanted to build a validator for react that had minimal configuration and felt natural to use. It's configuration and usage is similar to the Laravel PHP framework and make validation as easy as one line.
 
@@ -29,12 +34,12 @@ Simple React Validator is exactly as it sounds. We wanted to build a validator f
    5. [React Native](#5-React-Native)
 3. [Rules](#rules)
 4. [Options](#options)
-    1. [Element](#1-element)
-    2. [Class Name](#2-classname)
-    3. [Messages](#3-messages)
-    4. [Validators](#4-validators)
-    5. [Auto Force Update](#5-autoforceupdate)
-    6. [Localization](#6-locale)
+   1. [Element](#1-element)
+   2. [Class Name](#2-classname)
+   3. [Messages](#3-messages)
+   4. [Validators](#4-validators)
+   5. [Auto Force Update](#5-autoforceupdate)
+   6. [Localization](#6-locale)
 5. [Custom Validators](#custom-validators)
 
 # Usage
@@ -58,13 +63,13 @@ import SimpleReactValidator from 'simple-react-validator';
 es5
 ```javascript
 componentWillMount: function() {
-  this.validator = new SimpleReactValidator();
+   this.validator = new SimpleReactValidator();
 },
 ```
 es6
 ```javascript
 constructor() {
-  this.validator = new SimpleReactValidator();
+   this.validator = new SimpleReactValidator();
 }
 ```
 
@@ -81,57 +86,57 @@ this.validator.message('title', this.state.title, 'required|email')
 **Example:**
 ```jsx
 render() {
-  return (
-    <div className="container">
-      <h1>Write a Review</h1>
-      <div className="form-group">
-        <label>Title</label>
-        <input className="form-control" value={this.state.title} onChange={this.setTitle} />
+   return (
+           <div className="container">
+              <h1>Write a Review</h1>
+              <div className="form-group">
+                 <label>Title</label>
+                 <input className="form-control" value={this.state.title} onChange={this.setTitle} />
 
-        {/**********   This is where the magic happens     ***********/}
-        {this.validator.message('title', this.state.title, 'required|alpha')}
+                 {/**********   This is where the magic happens     ***********/}
+                 {this.validator.message('title', this.state.title, 'required|alpha')}
 
-      </div>
-      <div className="form-group">
-        <label>Email</label>
-        <input className="form-control" value={this.state.email} onChange={this.setEmail} />
+              </div>
+              <div className="form-group">
+                 <label>Email</label>
+                 <input className="form-control" value={this.state.email} onChange={this.setEmail} />
 
-        {/**********   This is where the magic happens     ***********/}
-        {this.validator.message('email', this.state.email, 'required|email', { className: 'text-danger' })}
+                 {/**********   This is where the magic happens     ***********/}
+                 {this.validator.message('email', this.state.email, 'required|email', { className: 'text-danger' })}
 
-      </div>
-      <div className="form-group">
-        <label>Review</label>
-        <textarea className="form-control" value={this.state.review} onChange={this.setReview} />
+              </div>
+              <div className="form-group">
+                 <label>Review</label>
+                 <textarea className="form-control" value={this.state.review} onChange={this.setReview} />
 
-        {/**********   This is where the magic happens     ***********/}
-        {this.validator.message('review', this.state.review, 'required|min:20|max:120')}
+                 {/**********   This is where the magic happens     ***********/}
+                 {this.validator.message('review', this.state.review, 'required|min:20|max:120')}
 
-      </div>
-      <button className="btn btn-primary" onClick={this.submitForm}>Save Review</button>
-    </div>
-  );
+              </div>
+              <button className="btn btn-primary" onClick={this.submitForm}>Save Review</button>
+           </div>
+   );
 }
 ```
 
 3. Check if the validation passes when submitting and turn on messaging if it fails. Once messaging is turned on, validation messages will change and update as the user types.
 ```javascript
 submitForm() {
-  if (this.validator.allValid()) {
-    alert('You submitted the form and stuff!');
-  } else {
-    this.validator.showMessages();
-    // rerender to show messages for the first time
-    // you can use the autoForceUpdate option to do this automatically`
-    this.forceUpdate();
-  }
+   if (this.validator.allValid()) {
+      alert('You submitted the form and stuff!');
+   } else {
+      this.validator.showMessages();
+      // rerender to show messages for the first time
+      // you can use the autoForceUpdate option to do this automatically`
+      this.forceUpdate();
+   }
 }
 ```
 
 There is another method you can use to check if a single field is valid or not.
 ```javascript
 if (this.validator.fieldValid('email')) {
-  // booya this field is valid!
+   // booya this field is valid!
 }
 ```
 
@@ -139,7 +144,7 @@ if (this.validator.fieldValid('email')) {
 As of v1.1.0 you can initialize the the constructor with the `autoForceUpdate` option and pass it react instance that is responsible for the state. This will automatically call the `this.forceUpdate()` for you when `showMessages`, `hideMessages`, `showMessageFor`, and `hideMessageFor` are called.
 ```javascript
 constructor() {
-  this.validator = new SimpleReactValidator({autoForceUpdate: this});
+   this.validator = new SimpleReactValidator({autoForceUpdate: this});
 }
 
 
@@ -174,9 +179,9 @@ You can use the react onBlur action to show individual fields once the input is 
 
 ```jsx
 <div>
-  <label>Email</label>
-  <input value={this.state.email} onChange={/* update email */} onBlur={() => this.validator.showMessageFor('email')} />
-  {this.validator.message('email', this.state.email, 'required|email')}
+   <label>Email</label>
+   <input value={this.state.email} onChange={/* update email */} onBlur={() => this.validator.showMessageFor('email')} />
+   {this.validator.message('email', this.state.email, 'required|email')}
 </div>
 
 ```
@@ -187,34 +192,34 @@ A field is added to validator via the above `message` method. But sometimes you 
 
 ```jsx
 render() {
-  this.validator.purgeFields();
-  return (
-    <div>
-      <div className="form-group">
-        <label>Address Line 1</label>
-        <input className="form-control" value={this.state.title} onChange={this.setTitle} />
-        {this.validator.message('title', this.state.title, 'required|alpha')}
-      </div>
-      {this.optinallyAddAnotherAddressLine()}
-      <button className="btn btn-primary" onClick={this.submitForm}>Save Review</button>
-    </div>
-  );
+   this.validator.purgeFields();
+   return (
+           <div>
+              <div className="form-group">
+                 <label>Address Line 1</label>
+                 <input className="form-control" value={this.state.title} onChange={this.setTitle} />
+                 {this.validator.message('title', this.state.title, 'required|alpha')}
+              </div>
+              {this.optinallyAddAnotherAddressLine()}
+              <button className="btn btn-primary" onClick={this.submitForm}>Save Review</button>
+           </div>
+   );
 }
 ```
 
 #### 4. React Hooks
 
-SimpleReactValidator is a class but if you instantiate a class in a stateless React component it will do this on every render (losing any message information that may have been added). 
+SimpleReactValidator is a class but if you instantiate a class in a stateless React component it will do this on every render (losing any message information that may have been added).
 
 useRef: instruct React to treat SimpleReactValidator as a singleton:
 ```jsx
 const simpleValidator = useRef(new SimpleReactValidator())
 
-<Input
-  name="name"
-  value={companyInformation.name}
-  onChange={handleInputChange}
-  onBlur={()=>simpleValidator.current.showMessageFor('name')} />
+        <Input
+name="name"
+value={companyInformation.name}
+onChange={handleInputChange}
+onBlur={()=>simpleValidator.current.showMessageFor('name')} />
 {simpleValidator.current.message('name', companyInformation.name, 'required')}
 ```
 For more detail see [issue: #97](https://github.com/dockwa/simple-react-validator/issues/97)
@@ -225,7 +230,7 @@ You need to wrap validator with `<Text>` Element.
 
 ```jsx
 <Text>
-  {this.validator.message('title', this.state.title, 'required|alpha')}
+   {this.validator.message('title', this.state.title, 'required|alpha')}
 </Text>
 ```
 
@@ -386,14 +391,14 @@ Must be a valid url. Ex. https://dockwa.com or dockwa.com
 The Simple React Validator can receive an options object when initialized or as the fourth parameter when defining a validator. There are 4 options you can provide.
 #### 1. element:
 Accepts a block where you can return the default element that you want to wrap the message from a validator message. The default element is `<div className="srv-validation-message">{message}</div>`. If you are using React Native the default will be just the message the gets returned. You can also set `element: false` to just return a message.
-  * **Takes 2 params**
-  * message: The message coming from the validator.
-  * className (optional): Will optionally be provided so you can change the className on a per validation basis.
+* **Takes 2 params**
+* message: The message coming from the validator.
+* className (optional): Will optionally be provided so you can change the className on a per validation basis.
 ```jsx
 this.validator = new SimpleReactValidator({
-  element: message => <div>{message}</div>
-  // OR
-  element: (message, className) => <div className={className}>{message}</div>
+   element: message => <div>{message}</div>
+   // OR
+   element: (message, className) => <div className={className}>{message}</div>
 })
 ```
 #### 2. className:
@@ -402,11 +407,11 @@ String of classes to be passed into an element, default is `srv-validation-messa
 Accepts an object to override validation messages. It also accepts a default which will override all messages.
 ```jsx
 this.validator = new SimpleReactValidator({
-  messages: {
-    email: 'That is not an email.'
-    // OR
-    default: 'Validation has failed!'  // will override all messages
-  },
+   messages: {
+      email: 'That is not an email.'
+      // OR
+      default: 'Validation has failed!'  // will override all messages
+   },
 })
 ```
 #### 4. validators:
@@ -422,8 +427,8 @@ this.validator = new SimpleReactValidator({locale: 'fr'});
 You can apply custom messages with the [messages](#3-messages) option. However you can also apply a custom language that you can later select with the `addLocale` class method.
 ```jsx
 SimpleReactValidator.addLocale('klingon', {
-  accepted: 'Hab SoSlI’ Quch!',
-  email: 'Heghlu’meH QaQ jajvam'
+   accepted: 'Hab SoSlI’ Quch!',
+   email: 'Heghlu’meH QaQ jajvam'
 });
 ...
 this.validator = new SimpleReactValidator({locale: 'klingon'});
@@ -434,32 +439,32 @@ this.validator = new SimpleReactValidator({locale: 'klingon'});
 You can write custom rules that you can use the validate. A rule has 4 options:
 1. message: The message the will be shown when the validation fails. :attribute will be replaced by the _humanized_ name that your provide of the attribute you are validating (supports snake_case or camelCase).
 2. rule: Accepts a block that returns true if validator passes and false if it fails.
-  * **Takes 3 params**
-  * val: The value that is being validated.
-  * params: An array containing the params passed into the validator.
-  * validator: The validator object, allows you to access helper methods such as `validator.helpers.textRegex(val, regex)` which returns true or false if the regex passes.
+* **Takes 3 params**
+* val: The value that is being validated.
+* params: An array containing the params passed into the validator.
+* validator: The validator object, allows you to access helper methods such as `validator.helpers.textRegex(val, regex)` which returns true or false if the regex passes.
 3. messageReplace (optional): Accepts a block uses to modify and return the message on the fly.
-  * **Takes 2 params**
-  * message: The message provided above.
-  * params: An array containing the params passed into the validator.
+* **Takes 2 params**
+* message: The message provided above.
+* params: An array containing the params passed into the validator.
 4. required (optional): True if you want the validator to be implicitly required when it is applied. All validators are not required by default. The equivalent of adding `required` to each validation definition.
 
 Example:
 
 ```javascript
 constructor() {
-  this.validator = new SimpleReactValidator({
-    validators: {
-      ip: {  // name the rule
-        message: 'The :attribute must be a valid IP address and must be :values.',
-        rule: (val, params, validator) => {
-          return validator.helpers.testRegex(val,/^(?!0)(?!.*\.$)((1?\d?\d|25[0-5]|2[0-4]\d)(\.|$)){4}$/i) && params.indexOf(val) === -1
-        },
-        messageReplace: (message, params) => message.replace(':values', this.helpers.toSentence(params)),  // optional
-        required: true  // optional
+   this.validator = new SimpleReactValidator({
+      validators: {
+         ip: {  // name the rule
+            message: 'The :attribute must be a valid IP address and must be :values.',
+            rule: (val, params, validator) => {
+               return validator.helpers.testRegex(val,/^(?!0)(?!.*\.$)((1?\d?\d|25[0-5]|2[0-4]\d)(\.|$)){4}$/i) && params.indexOf(val) === -1
+            },
+            messageReplace: (message, params) => message.replace(':values', this.helpers.toSentence(params)),  // optional
+            required: true  // optional
+         }
       }
-    }
-  });
+   });
 }
 ```
 
@@ -467,16 +472,16 @@ Usage:
 
 ```jsx
 render: function() {
-  return (
-    <div className="container">
-      <h1>Give Me Your IP</h1>
-      <div className="form-group">
-        <label>IP Address</label>
-        <input className="form-control" value={this.state.ip} onChange={this.setIP} />
-        {this.validator.message('ipAddress', this.state.ip, 'required|ip:127.0.0.1')}
-      </div>
-      ...
-    </div>
-  );
+   return (
+           <div className="container">
+              <h1>Give Me Your IP</h1>
+              <div className="form-group">
+                 <label>IP Address</label>
+                 <input className="form-control" value={this.state.ip} onChange={this.setIP} />
+                 {this.validator.message('ipAddress', this.state.ip, 'required|ip:127.0.0.1')}
+              </div>
+              ...
+           </div>
+   );
 },
 ```

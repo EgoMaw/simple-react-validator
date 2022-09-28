@@ -44,7 +44,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["gulp-uglify", "npm:3.0.2"],\
             ["gulp-umd", "npm:2.0.0"],\
             ["gulp-util", "npm:3.0.8"],\
-            ["lodash", "npm:4.17.21"]\
+            ["lodash-es", "npm:4.17.21"]\
           ],\
           "linkType": "SOFT"\
         }]\
@@ -2279,7 +2279,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["gulp-uglify", "npm:3.0.2"],\
             ["gulp-umd", "npm:2.0.0"],\
             ["gulp-util", "npm:3.0.8"],\
-            ["lodash", "npm:4.17.21"]\
+            ["lodash-es", "npm:4.17.21"]\
           ],\
           "linkType": "SOFT"\
         }]\
@@ -5009,11 +5009,11 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
-      ["lodash", [\
+      ["lodash-es", [\
         ["npm:4.17.21", {\
-          "packageLocation": "./.yarn/cache/lodash-npm-4.17.21-6382451519-eb835a2e51.zip/node_modules/lodash/",\
+          "packageLocation": "./.yarn/cache/lodash-es-npm-4.17.21-b45832dfce-05cbffad6e.zip/node_modules/lodash-es/",\
           "packageDependencies": [\
-            ["lodash", "npm:4.17.21"]\
+            ["lodash-es", "npm:4.17.21"]\
           ],\
           "linkType": "HARD"\
         }]\

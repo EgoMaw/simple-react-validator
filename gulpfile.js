@@ -12,8 +12,7 @@ import rename from 'gulp-rename';
 import uglify from 'gulp-uglify';
 import babel from 'gulp-babel';
 import path from 'node:path';
-import lod from 'lodash';
-const { camelCase, upperFirst } = lod;
+import { camelCase, upperFirst } from 'lodash-es';
 import gutil from 'gulp-util';
 
 const HEADER_COMMENT = '// Simple React Validator v1.0.0 | Created By Dockwa | Edited by EgoMaw | MIT License | 2017 - Present\n';

@@ -1,4 +1,4 @@
-import { lowerCase } from "lodash";
+import { lowerCase } from "lodash-es";
 
 class SimpleReactValidator {
   static version = '1.0.0';
@@ -20,6 +20,7 @@ class SimpleReactValidator {
       after                : {message: 'The :attribute must be after :date.',                                   rule: (val, params) => this.helpers.momentInstalled() && moment.isMoment(val) && val.isAfter(params[0], 'day'), messageReplace: (message, params) => message.replace(':date', params[0].format('MM/DD/YYYY'))},
       after_or_equal       : {message: 'The :attribute must be after or on :date.',                             rule: (val, params) => this.helpers.momentInstalled() && moment.isMoment(val) && val.isSameOrAfter(params[0], 'day'), messageReplace: (message, params) => message.replace(':date', params[0].format('MM/DD/YYYY'))},
       alpha                : {message: 'The :attribute may only contain letters.',                              rule: val => this.helpers.testRegex(val,/^[A-Z]*$/i)},
+      alpha_dash           : {message: 'The :attribute may only contain letters and dashes.',                   rule: val => this.helpers.testRegex(val,/^[A-Z_-]*$/i)},
       alpha_space          : {message: 'The :attribute may only contain letters and spaces.',                   rule: val => this.helpers.testRegex(val,/^[A-Z\s]*$/i)},
       alpha_num            : {message: 'The :attribute may only contain letters and numbers.',                  rule: val => this.helpers.testRegex(val,/^[A-Z0-9]*$/i)},
       alpha_num_space      : {message: 'The :attribute may only contain letters, numbers, and spaces.',         rule: val => this.helpers.testRegex(val,/^[A-Z0-9\s]*$/i)},
@@ -29,7 +30,7 @@ class SimpleReactValidator {
       before               : {message: 'The :attribute must be before :date.',                                  rule: (val, params) => this.helpers.momentInstalled() && moment.isMoment(val) && val.isBefore(params[0], 'day'), messageReplace: (message, params) => message.replace(':date', params[0].format('MM/DD/YYYY'))},
       before_or_equal      : {message: 'The :attribute must be before or on :date.',                            rule: (val, params) => this.helpers.momentInstalled() && moment.isMoment(val) && val.isSameOrBefore(params[0], 'day'), messageReplace: (message, params) => message.replace(':date', params[0].format('MM/DD/YYYY'))},
       between              : {message: 'The :attribute must be between :min and :max:type.',                    rule: (val, params) => this.helpers.size(val, params[2]) >= parseFloat(params[0]) && this.helpers.size(val, params[2]) <= parseFloat(params[1]), messageReplace: (message, params) => message.replace(':min', params[0]).replace(':max', params[1]).replace(':type', this.helpers.sizeText(params[2]))},
-      boolean              : {message: 'The :attribute must be a boolean.',                                     rule: val => val === false || val === true},
+      boolean              : {message: 'The :attribute must be able to be cast as a boolean.',                  rule: val => ['1', 1, 0, '0', 'true', 'false', true, false].includes(val) },
       card_exp             : {message: 'The :attribute must be a valid expiration date.',                       rule: val => this.helpers.testRegex(val,/^(([0]?[1-9]{1})|([1]{1}[0-2]{1}))\s?\/\s?(\d{2}|\d{4})$/)},
       card_num             : {message: 'The :attribute must be a valid credit card number.',                    rule: val => this.helpers.testRegex(val,/^\d{4}\s?\d{4,6}\s?\d{4,5}\s?\d{0,8}$/)},
       currency             : {message: 'The :attribute must be a valid currency.',                              rule: val => this.helpers.testRegex(val,/^[\$£€¥]?(\d{1,3})(\,?\d{3})*\.?\d{0,2}$/)},

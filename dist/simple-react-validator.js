@@ -10,7 +10,7 @@
 }(this, function(React) {
 "use strict";
 
-var _lodash = require("lodash");
+var _lodashEs = require("lodash-es");
 
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
@@ -130,7 +130,7 @@ var SimpleReactValidator = /*#__PURE__*/function () {
       },
       humanizeFieldName: function humanizeFieldName(field) {
         // supports snake_case or camelCase
-        return (0, _lodash.lowerCase)(field);
+        return (0, _lodashEs.lowerCase)(field);
       },
       element: function element(message, options) {
         var element = options.element || this.parent.element;
@@ -201,6 +201,12 @@ var SimpleReactValidator = /*#__PURE__*/function () {
           return _this.helpers.testRegex(val, /^[A-Z]*$/i);
         }
       },
+      alpha_dash: {
+        message: 'The :attribute may only contain letters and dashes.',
+        rule: function rule(val) {
+          return _this.helpers.testRegex(val, /^[A-Z_-]*$/i);
+        }
+      },
       alpha_space: {
         message: 'The :attribute may only contain letters and spaces.',
         rule: function rule(val) {
@@ -265,9 +271,9 @@ var SimpleReactValidator = /*#__PURE__*/function () {
         }
       },
       "boolean": {
-        message: 'The :attribute must be a boolean.',
+        message: 'The :attribute must be able to be cast as a boolean.',
         rule: function rule(val) {
-          return val === false || val === true;
+          return ['1', 1, 0, '0', 'true', 'false', true, false].includes(val);
         }
       },
       card_exp: {
