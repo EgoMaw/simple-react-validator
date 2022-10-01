@@ -156,7 +156,9 @@ class SimpleReactValidator {
   }
 
   addField(field, validations) {
-    this.errorMessages[field] = null;
+    if (this.errorMessages[field]) {
+      delete this.errorMessages[field]
+    }
     this.fields[field] = true;
     if (!Array.isArray(validations)) {
       validations = validations.split('|');
@@ -165,7 +167,9 @@ class SimpleReactValidator {
   }
 
   message(field, inputValue, validations, options = {}) {
-    this.errorMessages[field] = null;
+    if (this.errorMessages[field]) {
+      delete this.errorMessages[field]
+    }
     this.fields[field] = true;
     if (!Array.isArray(validations)) {
       validations = validations.split('|');
