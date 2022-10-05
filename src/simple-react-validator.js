@@ -1,5 +1,3 @@
-import { lowerCase } from "lodash-es";
-
 class SimpleReactValidator {
   static version = '1.0.0';
   static locales = {'en': {}};
@@ -14,7 +12,7 @@ class SimpleReactValidator {
     this.visibleFields = [];
     this.errorMessages = {};
     this.messagesShown = false;
-    this.shouldHumanizeFields ??= false;
+    this.humanizeField ??= false;
     this.rules = {
       accepted             : {message: 'The :attribute must be accepted.',                                      rule: val => val === true, required: true},
       after                : {message: 'The :attribute must be after :date.',                                   rule: (val, params) => this.helpers.momentInstalled() && moment.isMoment(val) && val.isAfter(params[0], 'day'), messageReplace: (message, params) => message.replace(':date', params[0].format('MM/DD/YYYY'))},
@@ -282,14 +280,18 @@ class SimpleReactValidator {
 
     message(rule, field, options, rules) {
       options.messages = options.messages || {};
-      const shouldHumanize = options.shouldHumanizeField || this.parent.shouldHumanizeFields;
+      const human = options.humanizeField || this.parent.humanizeField;
       const message = options.messages[rule] || options.messages.default || this.parent.messages[rule] || this.parent.messages.default || rules[rule].message;
-      return message.replace(':attribute', shouldHumanize ? this.humanizeFieldName(field): field);
+      let humField = field;
+      if (!!human) {
+        humField = typeof human === 'function' ? humField(field) : this.humanizeFieldName(field);
+      }
+      return message.replace(':attribute', humField);
     },
 
     humanizeFieldName(field) {
       // supports snake_case or camelCase
-      return lowerCase(field);
+      return field.replace(/([a-z0-9])([A-Z])/g, '$1 $2').replace(/_/g, ' ').toLowerCase();
     },
 
     element(message, options) {

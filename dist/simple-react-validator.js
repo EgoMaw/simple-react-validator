@@ -10,8 +10,6 @@
 }(this, function(React) {
 "use strict";
 
-var _lodashEs = require("lodash-es");
-
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -43,7 +41,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 var SimpleReactValidator = /*#__PURE__*/function () {
   function SimpleReactValidator() {
     var _this = this,
-        _this$shouldHumanizeF;
+        _this$humanizeField;
 
     var _options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
@@ -124,13 +122,19 @@ var SimpleReactValidator = /*#__PURE__*/function () {
       },
       message: function message(rule, field, options, rules) {
         options.messages = options.messages || {};
-        var shouldHumanize = options.shouldHumanizeField || this.parent.shouldHumanizeFields;
+        var human = options.humanizeField || this.parent.humanizeField;
         var message = options.messages[rule] || options.messages["default"] || this.parent.messages[rule] || this.parent.messages["default"] || rules[rule].message;
-        return message.replace(':attribute', shouldHumanize ? this.humanizeFieldName(field) : field);
+        var humField = field;
+
+        if (!!human) {
+          humField = typeof human === 'function' ? humField(field) : this.humanizeFieldName(field);
+        }
+
+        return message.replace(':attribute', humField);
       },
       humanizeFieldName: function humanizeFieldName(field) {
         // supports snake_case or camelCase
-        return (0, _lodashEs.lowerCase)(field);
+        return field.replace(/([a-z0-9])([A-Z])/g, '$1 $2').replace(/_/g, ' ').toLowerCase();
       },
       element: function element(message, options) {
         var element = options.element || this.parent.element;
@@ -168,7 +172,7 @@ var SimpleReactValidator = /*#__PURE__*/function () {
     this.visibleFields = [];
     this.errorMessages = {};
     this.messagesShown = false;
-    (_this$shouldHumanizeF = this.shouldHumanizeFields) !== null && _this$shouldHumanizeF !== void 0 ? _this$shouldHumanizeF : this.shouldHumanizeFields = false;
+    (_this$humanizeField = this.humanizeField) !== null && _this$humanizeField !== void 0 ? _this$humanizeField : this.humanizeField = false;
     this.rules = _objectSpread({
       accepted: {
         message: 'The :attribute must be accepted.',
@@ -555,7 +559,10 @@ var SimpleReactValidator = /*#__PURE__*/function () {
   }, {
     key: "addField",
     value: function addField(field, validations) {
-      this.errorMessages[field] = null;
+      if (this.errorMessages[field]) {
+        delete this.errorMessages[field];
+      }
+
       this.fields[field] = true;
 
       if (!Array.isArray(validations)) {
@@ -568,7 +575,11 @@ var SimpleReactValidator = /*#__PURE__*/function () {
     key: "message",
     value: function message(field, inputValue, validations) {
       var options = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : {};
-      this.errorMessages[field] = null;
+
+      if (this.errorMessages[field]) {
+        delete this.errorMessages[field];
+      }
+
       this.fields[field] = true;
 
       if (!Array.isArray(validations)) {

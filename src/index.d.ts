@@ -9,7 +9,7 @@ interface IOptions {
   autoForceUpdate?: any;
   element?: any;
   locale?: string;
-  shouldHumanizeField?: boolean;
+  humanizeField?: boolean |((string) => string);
 }
 
 type IRule = 'accepted' | 'after' | 'after_or_equal' | 'alpha' | 'alpha_space' | 'alpha_num' | ' alpha_num_space' | 'alpha_num_dash' | 'alpha_num_dash_space' | 'array' | 'before' | 'before_or_equal' | 'between' | 'boolean' | 'card_exp' | 'card_num' | 'currency' | 'date' | 'date_equals' | 'email' | 'in' | 'integer' | 'max' | 'min' | 'not_in' | 'not_regex' | 'numeric' | 'phone' | 'regex' | 'required' | 'size' | 'string' | 'typeof' | 'url';
@@ -50,7 +50,7 @@ declare class SimpleReactValidator {
   errorMessages: IObject;
   messagesShown: boolean;
   rules: IRules;
-  shouldHumanizeFields: IOptions["shouldHumanizeField"];
+  humanizeField: IOptions["humanizeField"];
   messages: IOptions["messages"];
   className: IOptions["className"];
   autoForceUpdate: IOptions["autoForceUpdate"];
