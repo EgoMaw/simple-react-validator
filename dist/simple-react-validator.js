@@ -395,7 +395,7 @@ var SimpleReactValidator = /*#__PURE__*/function () {
       size: {
         message: 'The :attribute must be :size:type.',
         rule: function rule(val, params) {
-          return _this.helpers.size(val, params[1]) == parseFloat(params[0]);
+          return _this.helpers.size(val, params[1]) === parseFloat(params[0]);
         },
         messageReplace: function messageReplace(message, params) {
           return message.replace(':size', params[0]).replace(':type', _this.helpers.sizeText(params[1]));
@@ -423,9 +423,9 @@ var SimpleReactValidator = /*#__PURE__*/function () {
         }
       },
       nullable: {
-        message: 'The :attribute may be null.',
+        message: 'The :attribute must not be undefined.',
         rule: function rule(val) {
-          return val === null;
+          return val !== undefined;
         }
       }
     }, _options.validators || {}); // apply language
