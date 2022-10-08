@@ -1,6 +1,6 @@
 {
   "name": "@egomaw/react-validator",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "A simple react form validator inspired by Laravel validation.",
   "main": "dist/simple-react-validator.min.js",
   "type": "module",
@@ -30,7 +30,7 @@
     "dist": "yarn gulp dist",
     "watch": "yarn gulp watch",
     "prepare": "yarn run dist",
-    "serve": "python -m http.server 3000"
+    "serve": "python -m http.server 3100"
   },
   "repository": {
     "type": "git",

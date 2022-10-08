@@ -24,11 +24,11 @@ function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o =
 
 function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 
-function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
-
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -148,13 +148,17 @@ var SimpleReactValidator = /*#__PURE__*/function () {
           return true;
         }
       },
-      size: function size(val, type) {
-        // if an array or string get the length, else return the value.
-        if (type === 'string' || type === undefined || type === 'array') {
-          return val.length;
-        } else if (type === 'num') {
+      size: function size(val) {
+        if (!isNaN(val)) {
           return parseFloat(val);
+        } // if an array or string get the length, else return the value.
+
+
+        if (['array', 'string', 'object'].includes(_typeof(val))) {
+          return val.length;
         }
+
+        return NaN;
       },
       sizeText: function sizeText(type) {
         if (type === 'string' || type === undefined) {
@@ -268,7 +272,7 @@ var SimpleReactValidator = /*#__PURE__*/function () {
       between: {
         message: 'The :attribute must be between :min and :max:type.',
         rule: function rule(val, params) {
-          return _this.helpers.size(val, params[2]) >= parseFloat(params[0]) && _this.helpers.size(val, params[2]) <= parseFloat(params[1]);
+          return _this.helpers.size(val) >= parseFloat(params[0]) && _this.helpers.size(val, params[2]) <= parseFloat(params[1]);
         },
         messageReplace: function messageReplace(message, params) {
           return message.replace(':min', params[0]).replace(':max', params[1]).replace(':type', _this.helpers.sizeText(params[2]));
@@ -337,7 +341,7 @@ var SimpleReactValidator = /*#__PURE__*/function () {
       max: {
         message: 'The :attribute may not be greater than :max:type.',
         rule: function rule(val, params) {
-          return _this.helpers.size(val, params[1]) <= parseFloat(params[0]);
+          return _this.helpers.size(val) <= parseFloat(params[0]);
         },
         messageReplace: function messageReplace(message, params) {
           return message.replace(':max', params[0]).replace(':type', _this.helpers.sizeText(params[1]));
@@ -346,7 +350,7 @@ var SimpleReactValidator = /*#__PURE__*/function () {
       min: {
         message: 'The :attribute must be at least :min:type.',
         rule: function rule(val, params) {
-          return _this.helpers.size(val, params[1]) >= parseFloat(params[0]);
+          return _this.helpers.size(val) >= parseFloat(params[0]);
         },
         messageReplace: function messageReplace(message, params) {
           return message.replace(':min', params[0]).replace(':type', _this.helpers.sizeText(params[1]));
@@ -395,7 +399,7 @@ var SimpleReactValidator = /*#__PURE__*/function () {
       size: {
         message: 'The :attribute must be :size:type.',
         rule: function rule(val, params) {
-          return _this.helpers.size(val, params[1]) === parseFloat(params[0]);
+          return _this.helpers.size(val) === parseFloat(params[0]);
         },
         messageReplace: function messageReplace(message, params) {
           return message.replace(':size', params[0]).replace(':type', _this.helpers.sizeText(params[1]));
