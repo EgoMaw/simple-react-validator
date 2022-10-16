@@ -210,9 +210,9 @@ var SimpleReactValidator = /*#__PURE__*/function () {
         }
       },
       alpha_dash: {
-        message: 'The :attribute may only contain letters and dashes.',
+        message: 'The :attribute may only contain letters numbers and dashes.',
         rule: function rule(val) {
-          return _this.helpers.testRegex(val, /^[A-Z_-]*$/i);
+          return _this.helpers.testRegex(val, /^[A-Z0-9_-]*$/i);
         }
       },
       alpha_space: {

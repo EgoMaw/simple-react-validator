@@ -18,7 +18,7 @@ class SimpleReactValidator {
       after                : {message: 'The :attribute must be after :date.',                                   rule: (val, params) => this.helpers.momentInstalled() && moment.isMoment(val) && val.isAfter(params[0], 'day'), messageReplace: (message, params) => message.replace(':date', params[0].format('MM/DD/YYYY'))},
       after_or_equal       : {message: 'The :attribute must be after or on :date.',                             rule: (val, params) => this.helpers.momentInstalled() && moment.isMoment(val) && val.isSameOrAfter(params[0], 'day'), messageReplace: (message, params) => message.replace(':date', params[0].format('MM/DD/YYYY'))},
       alpha                : {message: 'The :attribute may only contain letters.',                              rule: val => this.helpers.testRegex(val,/^[A-Z]*$/i)},
-      alpha_dash           : {message: 'The :attribute may only contain letters and dashes.',                   rule: val => this.helpers.testRegex(val,/^[A-Z_-]*$/i)},
+      alpha_dash           : {message: 'The :attribute may only contain letters numbers and dashes.',           rule: val => this.helpers.testRegex(val,/^[A-Z0-9_-]*$/i)},
       alpha_space          : {message: 'The :attribute may only contain letters and spaces.',                   rule: val => this.helpers.testRegex(val,/^[A-Z\s]*$/i)},
       alpha_num            : {message: 'The :attribute may only contain letters and numbers.',                  rule: val => this.helpers.testRegex(val,/^[A-Z0-9]*$/i)},
       alpha_num_space      : {message: 'The :attribute may only contain letters, numbers, and spaces.',         rule: val => this.helpers.testRegex(val,/^[A-Z0-9\s]*$/i)},
