@@ -286,6 +286,15 @@ var SimpleReactValidator = /*#__PURE__*/function () {
           return message.replace(':date', params[0].format('MM/DD/YYYY'));
         }
       },
+      digits_between: {
+        message: 'The integer :attribute must be between :min and :max.',
+        rule: function rule(val, params) {
+          return _this.helpers.testRegex(val, /^\-?\d*$/) && _this.helpers.size(val, 'num') >= parseFloat(params[0]) && _this.helpers.size(val, 'num') <= parseFloat(params[1]);
+        },
+        messageReplace: function messageReplace(message, params) {
+          return message.replace(':min', params[0]).replace(':max', params[1]);
+        }
+      },
       email: {
         message: 'The :attribute must be a valid email address.',
         rule: function rule(val) {
@@ -604,7 +613,7 @@ var SimpleReactValidator = /*#__PURE__*/function () {
   }]);
   return SimpleReactValidator;
 }();
-_defineProperty(SimpleReactValidator, "version", '1.0.0');
+_defineProperty(SimpleReactValidator, "version", '1.2.2');
 _defineProperty(SimpleReactValidator, "locales", {
   'en': {}
 });
