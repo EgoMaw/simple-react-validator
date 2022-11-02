@@ -10,10 +10,10 @@
     "/src/index.d.ts"
   ],
   "devDependencies": {
-    "@babel/core": "^7.19.3",
+    "@babel/core": "^7.19.6",
     "@babel/plugin-proposal-class-properties": "^7.18.6",
-    "@babel/plugin-proposal-object-rest-spread": "^7.18.9",
-    "@babel/preset-env": "^7.19.3",
+    "@babel/plugin-proposal-object-rest-spread": "^7.19.4",
+    "@babel/preset-env": "^7.19.4",
     "gulp": "^4.0.2",
     "gulp-babel": "^8.0.0",
     "gulp-inject-string": "^1.1.2",
