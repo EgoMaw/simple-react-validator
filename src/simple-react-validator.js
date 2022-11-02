@@ -163,7 +163,7 @@ class SimpleReactValidator {
     }
 
     let type;
-    for (const validation of validations) {
+    for (const validation of validations.filter(v => typeof v === 'string')) {
       if (type) { break; }
       if(validation.startsWith('alpha')) {
         type = 'string';

@@ -532,7 +532,9 @@ var SimpleReactValidator = /*#__PURE__*/function () {
         validations = validations.split('|');
       }
       var type;
-      var _iterator2 = _createForOfIteratorHelper(validations),
+      var _iterator2 = _createForOfIteratorHelper(validations.filter(function (v) {
+          return typeof v === 'string';
+        })),
         _step2;
       try {
         for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
