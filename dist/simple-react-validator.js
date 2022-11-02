@@ -148,14 +148,13 @@ var SimpleReactValidator = /*#__PURE__*/function () {
           return true;
         }
       },
-      size: function size(val) {
+      size: function size(val, type) {
+        if (type !== 'num' && ['array', 'string', 'object'].includes(_typeof(val))) {
+          return val.length;
+        }
+
         if (!isNaN(val)) {
           return parseFloat(val);
-        } // if an array or string get the length, else return the value.
-
-
-        if (['array', 'string', 'object'].includes(_typeof(val))) {
-          return val.length;
         }
 
         return NaN;
@@ -272,7 +271,7 @@ var SimpleReactValidator = /*#__PURE__*/function () {
       between: {
         message: 'The :attribute must be between :min and :max:type.',
         rule: function rule(val, params) {
-          return _this.helpers.size(val) >= parseFloat(params[0]) && _this.helpers.size(val, params[2]) <= parseFloat(params[1]);
+          return _this.helpers.size(val, params[2]) >= parseFloat(params[0]) && _this.helpers.size(val, params[2]) <= parseFloat(params[1]);
         },
         messageReplace: function messageReplace(message, params) {
           return message.replace(':min', params[0]).replace(':max', params[1]).replace(':type', _this.helpers.sizeText(params[2]));
@@ -341,7 +340,7 @@ var SimpleReactValidator = /*#__PURE__*/function () {
       max: {
         message: 'The :attribute may not be greater than :max:type.',
         rule: function rule(val, params) {
-          return _this.helpers.size(val) <= parseFloat(params[0]);
+          return _this.helpers.size(val, params[1]) <= parseFloat(params[0]);
         },
         messageReplace: function messageReplace(message, params) {
           return message.replace(':max', params[0]).replace(':type', _this.helpers.sizeText(params[1]));
@@ -350,7 +349,7 @@ var SimpleReactValidator = /*#__PURE__*/function () {
       min: {
         message: 'The :attribute must be at least :min:type.',
         rule: function rule(val, params) {
-          return _this.helpers.size(val) >= parseFloat(params[0]);
+          return _this.helpers.size(val, params[1]) >= parseFloat(params[0]);
         },
         messageReplace: function messageReplace(message, params) {
           return message.replace(':min', params[0]).replace(':type', _this.helpers.sizeText(params[1]));
@@ -399,7 +398,7 @@ var SimpleReactValidator = /*#__PURE__*/function () {
       size: {
         message: 'The :attribute must be :size:type.',
         rule: function rule(val, params) {
-          return _this.helpers.size(val) === parseFloat(params[0]);
+          return _this.helpers.size(val, params[1]) === parseFloat(params[0]);
         },
         messageReplace: function messageReplace(message, params) {
           return message.replace(':size', params[0]).replace(':type', _this.helpers.sizeText(params[1]));
@@ -561,21 +560,6 @@ var SimpleReactValidator = /*#__PURE__*/function () {
       return true;
     }
   }, {
-    key: "addField",
-    value: function addField(field, validations) {
-      if (this.errorMessages[field]) {
-        delete this.errorMessages[field];
-      }
-
-      this.fields[field] = true;
-
-      if (!Array.isArray(validations)) {
-        validations = validations.split('|');
-      }
-
-      this.savedFields[field] = validations;
-    }
-  }, {
     key: "message",
     value: function message(field, inputValue, validations) {
       var options = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : {};
@@ -590,7 +574,7 @@ var SimpleReactValidator = /*#__PURE__*/function () {
         validations = validations.split('|');
       }
 
-      var rules = options.validators ? _objectSpread(_objectSpread({}, this.rules), options.validators) : this.rules;
+      var type;
 
       var _iterator2 = _createForOfIteratorHelper(validations),
           _step2;
@@ -599,11 +583,54 @@ var SimpleReactValidator = /*#__PURE__*/function () {
         for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
           var validation = _step2.value;
 
-          var _this$helpers$normali3 = this.helpers.normalizeValues(inputValue, validation),
+          if (type) {
+            break;
+          }
+
+          if (validation.startsWith('alpha')) {
+            type = 'string';
+            break;
+          }
+
+          switch (validation) {
+            case 'string':
+              type = 'string';
+              break;
+
+            case 'array':
+              type = 'array';
+              break;
+
+            case 'numeric':
+            case 'integer':
+              type = 'num';
+              break;
+          }
+        }
+      } catch (err) {
+        _iterator2.e(err);
+      } finally {
+        _iterator2.f();
+      }
+
+      var rules = options.validators ? _objectSpread(_objectSpread({}, this.rules), options.validators) : this.rules;
+
+      var _iterator3 = _createForOfIteratorHelper(validations),
+          _step3;
+
+      try {
+        for (_iterator3.s(); !(_step3 = _iterator3.n()).done;) {
+          var _validation = _step3.value;
+
+          var _this$helpers$normali3 = this.helpers.normalizeValues(inputValue, _validation),
               _this$helpers$normali4 = _slicedToArray(_this$helpers$normali3, 3),
               value = _this$helpers$normali4[0],
               rule = _this$helpers$normali4[1],
               params = _this$helpers$normali4[2];
+
+          if (!params.length > 1 && params[params.length - 1]) {
+            params[params.length - 1] = type;
+          }
 
           if (!this.helpers.passes(rule, value, params, rules)) {
             this.fields[field] = false;
@@ -621,51 +648,9 @@ var SimpleReactValidator = /*#__PURE__*/function () {
           }
         }
       } catch (err) {
-        _iterator2.e(err);
+        _iterator3.e(err);
       } finally {
-        _iterator2.f();
-      }
-    }
-  }, {
-    key: "validateSavedAgainst",
-    value: function validateSavedAgainst(values) {
-      var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-      var rules = options.validators ? _objectSpread(_objectSpread({}, this.rules), options.validators) : this.rules;
-
-      for (var field in this.savedFields) {
-        var _iterator3 = _createForOfIteratorHelper(this.savedFields[field]),
-            _step3;
-
-        try {
-          for (_iterator3.s(); !(_step3 = _iterator3.n()).done;) {
-            var validation = _step3.value;
-
-            var _this$helpers$normali5 = this.helpers.normalizeValues(values[field], validation),
-                _this$helpers$normali6 = _slicedToArray(_this$helpers$normali5, 3),
-                value = _this$helpers$normali6[0],
-                rule = _this$helpers$normali6[1],
-                params = _this$helpers$normali6[2];
-
-            if (!this.helpers.passes(rule, value, params, rules)) {
-              this.fields[field] = false;
-              var message = this.helpers.message(rule, field, options, rules);
-
-              if (params.length > 0 && rules[rule].hasOwnProperty('messageReplace')) {
-                message = rules[rule].messageReplace(message, params);
-              }
-
-              this.errorMessages[field] = message;
-
-              if (this.messagesShown || this.visibleFields.includes(field)) {
-                return this.helpers.element(message, options);
-              }
-            }
-          }
-        } catch (err) {
-          _iterator3.e(err);
-        } finally {
-          _iterator3.f();
-        }
+        _iterator3.f();
       }
     }
   }], [{
