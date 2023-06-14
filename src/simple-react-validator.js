@@ -34,7 +34,7 @@ class SimpleReactValidator {
       currency             : {message: 'The :attribute must be a valid currency.',                              rule: val => this.helpers.testRegex(val,/^[\$£€¥]?(\d{1,3})(\,?\d{3})*\.?\d{0,2}$/)},
       date                 : {message: 'The :attribute must be a date.',                                        rule: val => this.helpers.momentInstalled() && moment.isMoment(val)},
       date_equals          : {message: 'The :attribute must be on :date.',                                      rule: (val, params) => this.helpers.momentInstalled() && moment.isMoment(val) && val.isSame(params[0], 'day'), messageReplace: (message, params) => message.replace(':date', params[0].format('MM/DD/YYYY'))},
-      digits_between       : {message: 'The integer :attribute must be between :min and :max.',                 rule: (val, params) => this.helpers.testRegex(val,/^\-?\d*$/) && this.helpers.size(val, 'num') >= parseFloat(params[0]) && this.helpers.size(val, 'num') <= parseFloat(params[1]), messageReplace: (message, params) => message.replace(':min', params[0]).replace(':max', params[1])},
+      digits_between       : {message: 'The integer :attribute must contain between :min and :max digits.',     rule: (val, params) => this.helpers.testRegex(val,/^\-?\d*$/) && this.helpers.getDigitLength(val) >= parseFloat(params[0]) && this.helpers.getDigitLength(val) <= parseFloat(params[1]), messageReplace: (message, params) => message.replace(':min', params[0]).replace(':max', params[1])},
       email                : {message: 'The :attribute must be a valid email address.',                         rule: val => this.helpers.testRegex(val,/^[A-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i)},
       in                   : {message: 'The selected :attribute must be :values.',                              rule: (val, params) => params.includes(val), messageReplace: (message, params) => message.replace(':values', this.helpers.toSentence(params))},
       integer              : {message: 'The :attribute must be an integer.',                                    rule: val => this.helpers.testRegex(val,/^\-?\d*$/)},
@@ -262,6 +262,10 @@ class SimpleReactValidator {
 
     testRegex(value, regex) {
       return value.toString().match(regex) !== null;
+    },
+
+    getDigitLength(value) {
+      return Math.log(value) * Math.LOG10E + 1 | 0
     },
 
     forceUpdateIfNeeded() {

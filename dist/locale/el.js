@@ -1,4 +1,4 @@
-// Simple React Validator v1.6.2 | Created By Dockwa | MIT License | 2017 - Present
+// Simple React Validator v1.3.0 | Created By Dockwa | Edited by EgoMaw | MIT License | 2017 - Present
 ;(function(root, factory) {
   if (typeof define === 'function' && define.amd) {
     define(['simple-react-validator'], factory);
@@ -12,7 +12,7 @@
 
 // Greek
 SimpleReactValidator.addLocale('el', {
-  accepted: 'Πρέπει να αποδεχετείτε το πεδίο :attribute',
+  accepted: 'Πρέπει να αποδεχτείτε το πεδίο :attribute',
   after: 'Η ημ/νία :attribute πρέπει να είναι μετά από :date.',
   after_or_equal: 'Η ημ/νία :attribute πρέπει να είναι ίση με ή μετά από :date.',
   alpha: 'Το πεδίο :attribute μπορεί να περιέχει μόνο γράμματα',

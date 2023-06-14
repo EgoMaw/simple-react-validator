@@ -5,16 +5,19 @@ $ npm run gulp watch
 **************************************/
 
 // include plug-ins
-var gulp           = require('gulp');
-var umd            = require('gulp-umd');
-var inject         = require('gulp-inject-string')
-var rename         = require('gulp-rename');
-var uglify         = require('gulp-uglify');
-var babel          = require('gulp-babel');
-var path           = require('path');
-var camelCase      = require('camelcase');
-var gutil          = require('gulp-util');
-var HEADER_COMMENT = '// Simple React Validator v1.6.2 | Created By Dockwa | MIT License | 2017 - Present\n';
+import gulp from 'gulp';
+import umd from 'gulp-umd';
+import inject from 'gulp-inject-string';
+import rename from 'gulp-rename';
+import uglify from 'gulp-uglify';
+import babel from 'gulp-babel';
+import path from 'node:path';
+import colors from 'ansi-colors';
+import log from 'fancy-log';
+import { camelCase, upperFirst } from 'lodash-es';
+
+const HEADER_COMMENT = '// Simple React Validator v1.3.0 | Created By Dockwa | Edited by EgoMaw | MIT License | 2017 - Present\n';
+
 
 
 function build() {
@@ -44,7 +47,7 @@ function build() {
 
   // minify
   .pipe(uglify().on('error', function(err) {
-    gutil.log(gutil.colors.red('[Error]'), err.toString());
+    log.error(colors.colors.red('[Error]'), err.toString());
     this.emit('end');
   }))
   .pipe(inject.prepend(HEADER_COMMENT))
@@ -79,7 +82,7 @@ function buildLocales() {
 
   // minify
   .pipe(uglify().on('error', function(err) {
-    gutil.log(gutil.colors.red('[Error]'), err.toString());
+    log.error(colors.colors.red('[Error]'), err.toString());
     this.emit('end');
   }))
   .pipe(inject.prepend(HEADER_COMMENT))
@@ -92,13 +95,10 @@ function watch() {
   gulp.watch('src/*', buildLocales);
 }
 
-var dist = gulp.series(build, buildLocales)
+const dist = gulp.series(build, buildLocales);
 
-exports.build = build;
-exports.buildLocales = buildLocales;
-exports.watch = watch;
-exports.dist = dist;
+export { build, buildLocales, watch, dist}
 
 function capitalizeFilename(file) {
-  return camelCase(path.basename(file.path, '.js'), {pascalCase: true});
+  return upperFirst(camelCase(path.basename(file.path, '.js')));
 }
