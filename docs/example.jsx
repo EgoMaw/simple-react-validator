@@ -58,9 +58,6 @@ class ExampleForm extends React.Component {
   }
 
   render() {
-    console.log(this.validator.check('thing', 'required|phone'))
-    console.log(this.validator.check('8025086177', 'required|phone'))
-
     return (
       <div className="container card my-4">
         <div className="card-body">
@@ -90,7 +87,8 @@ class ExampleForm extends React.Component {
             {this.example('array')}
             {this.example('before', this.state.before && moment(this.state.before, 'YYYY-MM-DD'), [{before: moment().add(1, 'month')}], 'date')}
             {this.example('before_or_equal', this.state.before_or_equal && moment(this.state.before_or_equal, 'YYYY-MM-DD'), [{before_or_equal: moment().add(1, 'month')}], 'date')}
-            {this.example('between', this.state.between, 'between:10,20')}
+            {this.example('between string', this.state.between, 'between:10,20')}
+            {this.example('between num', this.state.between_num, 'integer|between:10,20')}
             {this.example('boolean')}
             {this.example('card_exp')}
             {this.example('card_num')}

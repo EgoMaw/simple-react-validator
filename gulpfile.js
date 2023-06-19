@@ -16,7 +16,7 @@ import colors from 'ansi-colors';
 import log from 'fancy-log';
 import {camelCase, upperFirst} from 'lodash-es';
 
-const HEADER_COMMENT = `// Simple React Validator v${process.env.npm_package_version} | Created By Dockwa | Edited by EgoMaw | MIT License | 2017 - Present`;
+const HEADER_COMMENT = `// Simple React Validator v${process.env.npm_package_version} | Created By Dockwa | Edited by EgoMaw | MIT License | 2017 - Present\n`;
 
 
 function build() {
@@ -37,12 +37,12 @@ function build() {
                         amd: 'react',
                         cjs: 'react',
                         global: 'React',
-                        param: 'React'
+                        param: 'React',
                     }
                 ]
             }
         }))
-        .pipe(inject.replace('dev', process.env.npm_package_version))
+        .pipe(inject.replace('__VERSION__', process.env.npm_package_version))
         .pipe(inject.prepend(HEADER_COMMENT))
         .pipe(gulp.dest('./dist/'))
 
