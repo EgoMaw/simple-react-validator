@@ -1,6 +1,6 @@
 class SimpleReactValidator {
-  static version = '1.2.2';
   static locales = {'en': {}};
+  static version = "dev"
 
   static addLocale(lang, messages) {
     this.locales[lang] = messages;
@@ -8,7 +8,6 @@ class SimpleReactValidator {
 
   constructor(options = {}) {
     this.fields = {};
-    this.savedFields = {};
     this.visibleFields = [];
     this.errorMessages = {};
     this.messagesShown = false;
@@ -23,7 +22,7 @@ class SimpleReactValidator {
       alpha_num            : {message: 'The :attribute may only contain letters and numbers.',                  rule: val => this.helpers.testRegex(val,/^[A-Z0-9]*$/i)},
       alpha_num_space      : {message: 'The :attribute may only contain letters, numbers, and spaces.',         rule: val => this.helpers.testRegex(val,/^[A-Z0-9\s]*$/i)},
       alpha_num_dash       : {message: 'The :attribute may only contain letters, numbers, and dashes.',         rule: val => this.helpers.testRegex(val,/^[A-Z0-9_-]*$/i)},
-      alpha_num_dash_space : {message: 'The :attribute may only contain letters, numbers, dashes, and spaces.', rule: val => this.helpers.testRegex(val,/^[A-Z0-9_-\s]*$/i)},
+      alpha_num_dash_space : {message: 'The :attribute may only contain letters, numbers, dashes, and spaces.', rule: val => this.helpers.testRegex(val,/^[A-Z0-9_\- ]*$/i)},
       array                : {message: 'The :attribute must be an array.',                                      rule: val => Array.isArray(val)},
       before               : {message: 'The :attribute must be before :date.',                                  rule: (val, params) => this.helpers.momentInstalled() && moment.isMoment(val) && val.isBefore(params[0], 'day'), messageReplace: (message, params) => message.replace(':date', params[0].format('MM/DD/YYYY'))},
       before_or_equal      : {message: 'The :attribute must be before or on :date.',                            rule: (val, params) => this.helpers.momentInstalled() && moment.isMoment(val) && val.isSameOrBefore(params[0], 'day'), messageReplace: (message, params) => message.replace(':date', params[0].format('MM/DD/YYYY'))},
