@@ -1,6 +1,6 @@
 {
   "name": "@egomaw/react-validator",
-  "version": "1.3.3",
+  "version": "1.3.4",
   "description": "A simple react form validator inspired by Laravel validation.",
   "main": "dist/simple-react-validator.min.js",
   "type": "module",
