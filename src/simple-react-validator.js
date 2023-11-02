@@ -1,6 +1,6 @@
-class SimpleReactValidator {
-    static locales = {'en': {}};
-    static version = "__VERSION__"
+export default class SimpleReactValidator {
+    static locales = { en: {} };
+    static version = "__VERSION__";
     helpers = {
         parent: this,
 
@@ -16,11 +16,11 @@ class SimpleReactValidator {
         },
 
         isRequired(rule, rules) {
-            return rules[rule].hasOwnProperty('required') && rules[rule].required;
+            return rules[rule].hasOwnProperty("required") && rules[rule].required;
         },
 
         isBlank(value) {
-            return typeof (value) === 'undefined' || value === null || this.testRegex(value, /^[\s]*$/);
+            return typeof value === "undefined" || value === null || this.testRegex(value, /^[\s]*$/);
         },
 
         normalizeValues(value, validation) {
@@ -31,7 +31,7 @@ class SimpleReactValidator {
             if (validation === Object(validation) && !!Object.keys(validation).length) {
                 return Object.keys(validation)[0];
             } else {
-                return validation.split(':')[0];
+                return validation.split(":")[0];
             }
         },
 
@@ -41,19 +41,17 @@ class SimpleReactValidator {
                 params = Object.values(validation)[0];
                 return Array.isArray(params) ? params : [params];
             } else {
-                params = validation.split(':');
-                return params.length > 1 ? params[1].split(',') : [];
+                params = validation.split(":");
+                return params.length > 1 ? params[1].split(",") : [];
             }
         },
 
         valueOrEmptyString(value) {
-            return typeof value === 'undefined' || value === null ? '' : value;
+            return typeof value === "undefined" || value === null ? "" : value;
         },
 
         toSentence(arr) {
-            return arr.slice(0, -2).join(', ') +
-                (arr.slice(0, -2).length ? ', ' : '') +
-                arr.slice(-2).join(arr.length > 2 ? ', or ' : ' or ');
+            return arr.slice(0, -2).join(", ") + (arr.slice(0, -2).length ? ", " : "") + arr.slice(-2).join(arr.length > 2 ? ", or " : " or ");
         },
 
         testRegex(value, regex) {
@@ -61,7 +59,7 @@ class SimpleReactValidator {
         },
 
         getDigitLength(value) {
-            return Math.log(value) * Math.LOG10E + 1 | 0
+            return (Math.log(value) * Math.LOG10E + 1) | 0;
         },
 
         forceUpdateIfNeeded() {
@@ -76,14 +74,17 @@ class SimpleReactValidator {
             const message = options.messages[rule] || options.messages.default || this.parent.messages[rule] || this.parent.messages.default || rules[rule].message;
             let humField = field;
             if (!!human) {
-                humField = typeof human === 'function' ? humField(field) : this.humanizeFieldName(field);
+                humField = typeof human === "function" ? humField(field) : this.humanizeFieldName(field);
             }
-            return message.replace(':attribute', humField);
+            return message.replace(":attribute", humField);
         },
 
         humanizeFieldName(field) {
             // supports snake_case or camelCase
-            return field.replace(/([a-z0-9])([A-Z])/g, '$1 $2').replace(/_/g, ' ').toLowerCase();
+            return field
+                .replace(/([a-z0-9])([A-Z])/g, "$1 $2")
+                .replace(/_/g, " ")
+                .toLowerCase();
         },
 
         element(message, options) {
@@ -93,7 +94,7 @@ class SimpleReactValidator {
 
         momentInstalled() {
             if (!window || !window.moment) {
-                console.warn('Date validators require using momentjs https://momentjs.com and moment objects.');
+                console.warn("Date validators require using momentjs https://momentjs.com and moment objects.");
                 return false;
             } else {
                 return true;
@@ -101,7 +102,7 @@ class SimpleReactValidator {
         },
 
         size(val, type) {
-            if (type !== 'num' && ['array', 'string', 'object'].includes(typeof val)) {
+            if (type !== "num" && ["array", "string", "object"].includes(typeof val)) {
                 return val.length;
             }
 
@@ -109,21 +110,19 @@ class SimpleReactValidator {
                 return parseFloat(val);
             }
 
-            return NaN
-
-
+            return NaN;
         },
 
         sizeText(type) {
-            if (type === 'string' || type === undefined) {
-                return ' characters';
-            } else if (type === 'array') {
-                return ' elements';
+            if (type === "string" || type === undefined) {
+                return " characters";
+            } else if (type === "array") {
+                return " elements";
             } else {
-                return '';
+                return "";
             }
-        }
-    }
+        },
+    };
 
     constructor(options = {}) {
         this.fields = {};
@@ -132,167 +131,164 @@ class SimpleReactValidator {
         this.messagesShown = false;
         this.humanizeField ??= false;
         this.rules = {
-            accepted: {message: 'The :attribute must be accepted.', rule: val => val === true, required: true},
+            accepted: { message: "The :attribute must be accepted.", rule: (val) => val === true, required: true },
             after: {
-                message: 'The :attribute must be after :date.',
-                rule: (val, params) => this.helpers.momentInstalled() && moment.isMoment(val) && val.isAfter(params[0], 'day'),
-                messageReplace: (message, params) => message.replace(':date', params[0].format('MM/DD/YYYY'))
+                message: "The :attribute must be after :date.",
+                rule: (val, params) => this.helpers.momentInstalled() && moment.isMoment(val) && val.isAfter(params[0], "day"),
+                messageReplace: (message, params) => message.replace(":date", params[0].format("MM/DD/YYYY")),
             },
             after_or_equal: {
-                message: 'The :attribute must be after or on :date.',
-                rule: (val, params) => this.helpers.momentInstalled() && moment.isMoment(val) && val.isSameOrAfter(params[0], 'day'),
-                messageReplace: (message, params) => message.replace(':date', params[0].format('MM/DD/YYYY'))
+                message: "The :attribute must be after or on :date.",
+                rule: (val, params) => this.helpers.momentInstalled() && moment.isMoment(val) && val.isSameOrAfter(params[0], "day"),
+                messageReplace: (message, params) => message.replace(":date", params[0].format("MM/DD/YYYY")),
             },
             alpha: {
-                message: 'The :attribute may only contain letters.',
-                rule: val => this.helpers.testRegex(val, /^[A-Z]*$/i)
+                message: "The :attribute may only contain letters.",
+                rule: (val) => this.helpers.testRegex(val, /^[A-Z]*$/i),
             },
             alpha_dash: {
-                message: 'The :attribute may only contain letters numbers and dashes.',
-                rule: val => this.helpers.testRegex(val, /^[A-Z0-9_-]*$/i)
+                message: "The :attribute may only contain letters numbers and dashes.",
+                rule: (val) => this.helpers.testRegex(val, /^[A-Z0-9_-]*$/i),
             },
             alpha_space: {
-                message: 'The :attribute may only contain letters and spaces.',
-                rule: val => this.helpers.testRegex(val, /^[A-Z\s]*$/i)
+                message: "The :attribute may only contain letters and spaces.",
+                rule: (val) => this.helpers.testRegex(val, /^[A-Z\s]*$/i),
             },
             alpha_num: {
-                message: 'The :attribute may only contain letters and numbers.',
-                rule: val => this.helpers.testRegex(val, /^[A-Z0-9]*$/i)
+                message: "The :attribute may only contain letters and numbers.",
+                rule: (val) => this.helpers.testRegex(val, /^[A-Z0-9]*$/i),
             },
             alpha_num_space: {
-                message: 'The :attribute may only contain letters, numbers, and spaces.',
-                rule: val => this.helpers.testRegex(val, /^[A-Z0-9\s]*$/i)
+                message: "The :attribute may only contain letters, numbers, and spaces.",
+                rule: (val) => this.helpers.testRegex(val, /^[A-Z0-9\s]*$/i),
             },
             alpha_num_dash: {
-                message: 'The :attribute may only contain letters, numbers, and dashes.',
-                rule: val => this.helpers.testRegex(val, /^[A-Z0-9_-]*$/i)
+                message: "The :attribute may only contain letters, numbers, and dashes.",
+                rule: (val) => this.helpers.testRegex(val, /^[A-Z0-9_-]*$/i),
             },
             alpha_num_dash_space: {
-                message: 'The :attribute may only contain letters, numbers, dashes, and spaces.',
-                rule: val => this.helpers.testRegex(val, /^[A-Z0-9_\- ]*$/i)
+                message: "The :attribute may only contain letters, numbers, dashes, and spaces.",
+                rule: (val) => this.helpers.testRegex(val, /^[A-Z0-9_\- ]*$/i),
             },
-            array: {message: 'The :attribute must be an array.', rule: val => Array.isArray(val)},
+            array: { message: "The :attribute must be an array.", rule: (val) => Array.isArray(val) },
             before: {
-                message: 'The :attribute must be before :date.',
-                rule: (val, params) => this.helpers.momentInstalled() && moment.isMoment(val) && val.isBefore(params[0], 'day'),
-                messageReplace: (message, params) => message.replace(':date', params[0].format('MM/DD/YYYY'))
+                message: "The :attribute must be before :date.",
+                rule: (val, params) => this.helpers.momentInstalled() && moment.isMoment(val) && val.isBefore(params[0], "day"),
+                messageReplace: (message, params) => message.replace(":date", params[0].format("MM/DD/YYYY")),
             },
             before_or_equal: {
-                message: 'The :attribute must be before or on :date.',
-                rule: (val, params) => this.helpers.momentInstalled() && moment.isMoment(val) && val.isSameOrBefore(params[0], 'day'),
-                messageReplace: (message, params) => message.replace(':date', params[0].format('MM/DD/YYYY'))
+                message: "The :attribute must be before or on :date.",
+                rule: (val, params) => this.helpers.momentInstalled() && moment.isMoment(val) && val.isSameOrBefore(params[0], "day"),
+                messageReplace: (message, params) => message.replace(":date", params[0].format("MM/DD/YYYY")),
             },
             between: {
-                message: 'The :attribute must be between :min and :max:type.',
+                message: "The :attribute must be between :min and :max:type.",
                 rule: (val, params) => this.helpers.size(val, params[2]) >= parseFloat(params[0]) && this.helpers.size(val, params[2]) <= parseFloat(params[1]),
-                messageReplace: (message, params) => message.replace(':min', params[0]).replace(':max', params[1]).replace(':type', this.helpers.sizeText(params[2]))
+                messageReplace: (message, params) => message.replace(":min", params[0]).replace(":max", params[1]).replace(":type", this.helpers.sizeText(params[2])),
             },
             boolean: {
-                message: 'The :attribute must be able to be cast as a boolean.',
-                rule: val => ['1', 1, 0, '0', 'true', 'false', true, false].includes(val)
+                message: "The :attribute must be able to be cast as a boolean.",
+                rule: (val) => ["1", 1, 0, "0", "true", "false", true, false].includes(val),
             },
             card_exp: {
-                message: 'The :attribute must be a valid expiration date.',
-                rule: val => this.helpers.testRegex(val, /^(([0]?[1-9]{1})|([1]{1}[0-2]{1}))\s?\/\s?(\d{2}|\d{4})$/)
+                message: "The :attribute must be a valid expiration date.",
+                rule: (val) => this.helpers.testRegex(val, /^(([0]?[1-9]{1})|([1]{1}[0-2]{1}))\s?\/\s?(\d{2}|\d{4})$/),
             },
             card_num: {
-                message: 'The :attribute must be a valid credit card number.',
-                rule: val => this.helpers.testRegex(val, /^\d{4}\s?\d{4,6}\s?\d{4,5}\s?\d{0,8}$/)
+                message: "The :attribute must be a valid credit card number.",
+                rule: (val) => this.helpers.testRegex(val, /^\d{4}\s?\d{4,6}\s?\d{4,5}\s?\d{0,8}$/),
             },
             currency: {
-                message: 'The :attribute must be a valid currency.',
-                rule: val => this.helpers.testRegex(val, /^[\$£€¥]?(\d{1,3})(\,?\d{3})*\.?\d{0,2}$/)
+                message: "The :attribute must be a valid currency.",
+                rule: (val) => this.helpers.testRegex(val, /^[\$£€¥]?(\d{1,3})(\,?\d{3})*\.?\d{0,2}$/),
             },
             date: {
-                message: 'The :attribute must be a date.',
-                rule: val => this.helpers.momentInstalled() && moment.isMoment(val)
+                message: "The :attribute must be a date.",
+                rule: (val) => this.helpers.momentInstalled() && moment.isMoment(val),
             },
             date_equals: {
-                message: 'The :attribute must be on :date.',
-                rule: (val, params) => this.helpers.momentInstalled() && moment.isMoment(val) && val.isSame(params[0], 'day'),
-                messageReplace: (message, params) => message.replace(':date', params[0].format('MM/DD/YYYY'))
+                message: "The :attribute must be on :date.",
+                rule: (val, params) => this.helpers.momentInstalled() && moment.isMoment(val) && val.isSame(params[0], "day"),
+                messageReplace: (message, params) => message.replace(":date", params[0].format("MM/DD/YYYY")),
             },
             digits_between: {
-                message: 'The integer :attribute must contain between :min and :max digits.',
-                rule: (val, params) => this.helpers.testRegex(val, /^\-?\d*$/) && this.helpers.getDigitLength(val) >= parseFloat(params[0]) && this.helpers.getDigitLength(val) <= parseFloat(params[1]),
-                messageReplace: (message, params) => message.replace(':min', params[0]).replace(':max', params[1])
+                message: "The integer :attribute must contain between :min and :max digits.",
+                rule: (val, params) =>
+                    this.helpers.testRegex(val, /^\-?\d*$/) && this.helpers.getDigitLength(val) >= parseFloat(params[0]) && this.helpers.getDigitLength(val) <= parseFloat(params[1]),
+                messageReplace: (message, params) => message.replace(":min", params[0]).replace(":max", params[1]),
             },
             email: {
-                message: 'The :attribute must be a valid email address.',
-                rule: val => this.helpers.testRegex(val, /^[A-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i)
+                message: "The :attribute must be a valid email address.",
+                rule: (val) => this.helpers.testRegex(val, /^[A-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i),
             },
             in: {
-                message: 'The selected :attribute must be :values.',
+                message: "The selected :attribute must be :values.",
                 rule: (val, params) => params.includes(val),
-                messageReplace: (message, params) => message.replace(':values', this.helpers.toSentence(params))
+                messageReplace: (message, params) => message.replace(":values", this.helpers.toSentence(params)),
             },
             integer: {
-                message: 'The :attribute must be an integer.',
-                rule: val => this.helpers.testRegex(val, /^\-?\d*$/)
+                message: "The :attribute must be an integer.",
+                rule: (val) => this.helpers.testRegex(val, /^\-?\d*$/),
             },
             max: {
-                message: 'The :attribute may not be greater than :max:type.',
+                message: "The :attribute may not be greater than :max:type.",
                 rule: (val, params) => this.helpers.size(val, params[1]) <= parseFloat(params[0]),
-                messageReplace: (message, params) => message.replace(':max', params[0]).replace(':type', this.helpers.sizeText(params[1]))
+                messageReplace: (message, params) => message.replace(":max", params[0]).replace(":type", this.helpers.sizeText(params[1])),
             },
             min: {
-                message: 'The :attribute must be at least :min:type.',
+                message: "The :attribute must be at least :min:type.",
                 rule: (val, params) => this.helpers.size(val, params[1]) >= parseFloat(params[0]),
-                messageReplace: (message, params) => message.replace(':min', params[0]).replace(':type', this.helpers.sizeText(params[1]))
+                messageReplace: (message, params) => message.replace(":min", params[0]).replace(":type", this.helpers.sizeText(params[1])),
             },
             not_in: {
-                message: 'The selected :attribute must not be :values.',
+                message: "The selected :attribute must not be :values.",
                 rule: (val, params) => !params.includes(val),
-                messageReplace: (message, params) => message.replace(':values', this.helpers.toSentence(params))
+                messageReplace: (message, params) => message.replace(":values", this.helpers.toSentence(params)),
             },
             not_regex: {
-                message: 'The :attribute must not match the required pattern.',
-                rule: (val, params) => !this.helpers.testRegex(val, typeof params[0] === 'string' || params[0] instanceof String ? new RegExp(params[0]) : params[0])
+                message: "The :attribute must not match the required pattern.",
+                rule: (val, params) => !this.helpers.testRegex(val, typeof params[0] === "string" || params[0] instanceof String ? new RegExp(params[0]) : params[0]),
             },
             numeric: {
-                message: 'The :attribute must be a number.',
-                rule: val => this.helpers.testRegex(val, /^\-?\d*\.?\d+$/)
+                message: "The :attribute must be a number.",
+                rule: (val) => this.helpers.testRegex(val, /^\-?\d*\.?\d+$/),
             },
             phone: {
-                message: 'The :attribute must be a valid phone number.',
-                rule: val => this.helpers.testRegex(val, /^(\+?\d{0,4})?\s?-?\s?(\(?\d{3}\)?)\s?-?\s?(\(?\d{3}\)?)\s?-?\s?(\(?\d{4}\)?)$/) && !this.helpers.testRegex(val, /^\b(\d)\1{8,}\b$/)
+                message: "The :attribute must be a valid phone number.",
+                rule: (val) => this.helpers.testRegex(val, /^(\+?\d{0,4})?\s?-?\s?(\(?\d{3}\)?)\s?-?\s?(\(?\d{3}\)?)\s?-?\s?(\(?\d{4}\)?)$/) && !this.helpers.testRegex(val, /^\b(\d)\1{8,}\b$/),
             },
             regex: {
-                message: 'The :attribute must match the required pattern.',
-                rule: (val, params) => this.helpers.testRegex(val, typeof params[0] === 'string' || params[0] instanceof String ? new RegExp(params[0]) : params[0])
+                message: "The :attribute must match the required pattern.",
+                rule: (val, params) => this.helpers.testRegex(val, typeof params[0] === "string" || params[0] instanceof String ? new RegExp(params[0]) : params[0]),
             },
             required: {
-                message: 'The :attribute field is required.',
-                rule: val => !this.helpers.isBlank(val),
-                required: true
+                message: "The :attribute field is required.",
+                rule: (val) => !this.helpers.isBlank(val),
+                required: true,
             },
             size: {
-                message: 'The :attribute must be :size:type.',
+                message: "The :attribute must be :size:type.",
                 rule: (val, params) => this.helpers.size(val, params[1]) === parseFloat(params[0]),
-                messageReplace: (message, params) => message.replace(':size', params[0]).replace(':type', this.helpers.sizeText(params[1]))
+                messageReplace: (message, params) => message.replace(":size", params[0]).replace(":type", this.helpers.sizeText(params[1])),
             },
-            string: {message: 'The :attribute must be a string.', rule: val => typeof (val) === typeof ('string')},
+            string: { message: "The :attribute must be a string.", rule: (val) => typeof val === typeof "string" },
             typeof: {
-                message: 'The :attribute is not the correct type of :type.',
-                rule: (val, params) => typeof (val) === typeof (params[0]),
-                messageReplace: (message, params) => message.replace(':type', typeof (params[0]))
+                message: "The :attribute is not the correct type of :type.",
+                rule: (val, params) => typeof val === typeof params[0],
+                messageReplace: (message, params) => message.replace(":type", typeof params[0]),
             },
             url: {
-                message: 'The :attribute must be a url.',
-                rule: val => this.helpers.testRegex(val, /^https?:\/\/[-a-z0-9@:%._\+~#=]{1,256}\.[a-z0-9()]{2,13}\b([-a-z0-9()@:%_\+.~#?&//=]*)$/i)
+                message: "The :attribute must be a url.",
+                rule: (val) => this.helpers.testRegex(val, /^https?:\/\/[-a-z0-9@:%._\+~#=]{1,256}\.[a-z0-9()]{2,13}\b([-a-z0-9()@:%_\+.~#?&//=]*)$/i),
             },
-            nullable: {message: 'The :attribute must not be undefined.', rule: val => val !== undefined},
+            nullable: { message: "The :attribute must not be undefined.", rule: (val) => val !== undefined },
             ...(options.validators || {}),
         };
 
         // apply language
-        if (options.locale && !SimpleReactValidator.locales.hasOwnProperty(options.locale)) {
-            console.warn('Locale not found! Make sure it is spelled correctly and the locale file is loaded.');
+        if (options.locale) {
+            this.setLocale(options.locale);
         }
-        const locale = SimpleReactValidator.locales[options.locale] || {};
-        Object.keys(this.rules).forEach((key) => {
-            this.rules[key].message = locale[key] || this.rules[key].message
-        });
 
         // apply default options
         this.messages = options.messages || {};
@@ -301,18 +297,29 @@ class SimpleReactValidator {
 
         // apply default element
         if (options.element === false) {
-            this.element = message => message;
-        } else if (options.hasOwnProperty('element')) {
+            this.element = (message) => message;
+        } else if (options.hasOwnProperty("element")) {
             this.element = options.element;
-        } else if (typeof navigator === 'object' && navigator.product === 'ReactNative') {
-            this.element = message => message;
+        } else if (typeof navigator === "object" && navigator.product === "ReactNative") {
+            this.element = (message) => message;
         } else {
-            this.element = (message, className) => React.createElement('div', {className: (className || this.className || 'srv-validation-message')}, message);
+            this.element = (message, className) => React.createElement("div", { className: className || this.className || "srv-validation-message" }, message);
         }
     }
 
     static addLocale(lang, messages) {
         this.locales[lang] = messages;
+    }
+
+    setLocale(lang) {
+        // apply language
+        if (!SimpleReactValidator.locales.hasOwnProperty(lang)) {
+            console.warn("Locale not found! Make sure it is spelled correctly and the locale file is loaded.");
+        }
+        const locale = SimpleReactValidator.locales[lang] || {};
+        Object.keys(this.rules).forEach((key) => {
+            this.rules[key].message = locale[key] || this.rules[key].message;
+        });
     }
 
     getErrorMessages() {
@@ -329,20 +336,20 @@ class SimpleReactValidator {
         this.helpers.forceUpdateIfNeeded();
     }
 
-    showMessageFor = field => {
+    showMessageFor = (field) => {
         if (!this.visibleFields.includes(field)) {
             this.visibleFields.push(field);
         }
         this.helpers.forceUpdateIfNeeded();
-    }
+    };
 
-    hideMessageFor = field => {
+    hideMessageFor = (field) => {
         const index = this.visibleFields.indexOf(field);
         if (index > -1) {
             this.visibleFields.splice(index, 1);
         }
         this.helpers.forceUpdateIfNeeded();
-    }
+    };
 
     allValid() {
         for (let key in this.fields) {
@@ -369,7 +376,7 @@ class SimpleReactValidator {
     }
 
     messageAlways(field, message, options = {}) {
-        console.warn('The messageAlways() method is deprecated in SimpleReactValidator. Please see the documentation and switch to the messageWhenPresent() method.')
+        console.warn("The messageAlways() method is deprecated in SimpleReactValidator. Please see the documentation and switch to the messageWhenPresent() method.");
         if (message && this.messagesShown) {
             return this.helpers.element(message, options);
         }
@@ -377,9 +384,9 @@ class SimpleReactValidator {
 
     check(inputValue, validations, options = {}) {
         if (!Array.isArray(validations)) {
-            validations = validations.split('|');
+            validations = validations.split("|");
         }
-        const rules = options.validators ? {...this.rules, ...options.validators} : this.rules;
+        const rules = options.validators ? { ...this.rules, ...options.validators } : this.rules;
         for (let validation of validations) {
             let [value, rule, params] = this.helpers.normalizeValues(inputValue, validation);
             if (!this.helpers.passes(rule, value, params, rules)) {
@@ -391,11 +398,11 @@ class SimpleReactValidator {
 
     message(field, inputValue, validations, options = {}) {
         if (this.errorMessages[field]) {
-            delete this.errorMessages[field]
+            delete this.errorMessages[field];
         }
         this.fields[field] = true;
         if (!Array.isArray(validations)) {
-            validations = validations.split('|');
+            validations = validations.split("|");
         }
 
         let type;
@@ -403,28 +410,26 @@ class SimpleReactValidator {
             if (type) {
                 break;
             }
-            const key = typeof validation === 'string' ? validation : Object.keys(validation)[0];
-            if (key.startsWith('alpha')) {
-                type = 'string';
+            const key = typeof validation === "string" ? validation : Object.keys(validation)[0];
+            if (key.startsWith("alpha")) {
+                type = "string";
                 break;
             }
             switch (key) {
-                case 'string':
-                    type = 'string';
+                case "string":
+                    type = "string";
                     break;
-                case 'array':
-                    type = 'array';
+                case "array":
+                    type = "array";
                     break;
-                case 'numeric':
-                case 'integer':
-                    type = 'num';
+                case "numeric":
+                case "integer":
+                    type = "num";
                     break;
             }
-
-
         }
 
-        const rules = options.validators ? {...this.rules, ...options.validators} : this.rules;
+        const rules = options.validators ? { ...this.rules, ...options.validators } : this.rules;
         for (let validation of validations) {
             let [value, rule, params] = this.helpers.normalizeValues(inputValue, validation);
 
@@ -435,7 +440,7 @@ class SimpleReactValidator {
             if (!this.helpers.passes(rule, value, params, rules)) {
                 this.fields[field] = false;
                 let message = this.helpers.message(rule, field, options, rules);
-                if (params.length > 0 && rules[rule].hasOwnProperty('messageReplace')) {
+                if (params.length > 0 && rules[rule].hasOwnProperty("messageReplace")) {
                     message = rules[rule].messageReplace(message, params);
                 }
 
