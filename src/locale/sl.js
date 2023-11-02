@@ -1,5 +1,7 @@
 // Slovenian
-SimpleReactValidator.addLocale('sl', {
+import SimpleReactValidator from '../simple-react-validator';
+
+export default SimpleReactValidator.addLocale('sl', {
   accepted             : 'Polje :attribute mora biti izbrano.',
   after                : 'Polje :attribute mora biti večje od :date.',
   after_or_equal       : 'Polje :attribute mora biti večje ali enako :date.',

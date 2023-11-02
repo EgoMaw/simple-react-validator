@@ -1,5 +1,7 @@
 // Dutch
-SimpleReactValidator.addLocale('nl', {
+import SimpleReactValidator from '../simple-react-validator';
+
+export default SimpleReactValidator.addLocale('nl', {
   accepted             : ':attribute moet geaccepteerd zijn.',
   after                : ':attribute moet een datum na :date zijn.',
   after_or_equal       : ':attribute moet een datum na of gelijk aan :date zijn.',

@@ -1,5 +1,7 @@
 // Serbian
-SimpleReactValidator.addLocale('sr', {
+import SimpleReactValidator from '../simple-react-validator';
+
+export default SimpleReactValidator.addLocale('sr', {
   accepted             : 'Polje :attribute mora biti prihvaćeno.',
   after                : 'Polje :attribute mora biti nakon :date.',
   after_or_equal       : 'Polje :attribute mora biti nakon ili na :date.',

@@ -1,5 +1,7 @@
 // Greek
-SimpleReactValidator.addLocale('el', {
+import SimpleReactValidator from '../simple-react-validator';
+
+export default SimpleReactValidator.addLocale('el', {
   accepted             : 'Πρέπει να αποδεχτείτε το πεδίο :attribute',
   after                : 'Η ημ/νία :attribute πρέπει να είναι μετά από :date.',
   after_or_equal       : 'Η ημ/νία :attribute πρέπει να είναι ίση με ή μετά από :date.',

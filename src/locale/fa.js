@@ -1,5 +1,7 @@
 // Persian
-SimpleReactValidator.addLocale('fa', {
+import SimpleReactValidator from '../simple-react-validator';
+
+export default SimpleReactValidator.addLocale('fa', {
   accepted             : ':attribute مورد قبول قرار نگرفت',
   after                : ':attribute باید تاریخی بعد از :date باشد.',
   after_or_equal       : ':attribute باید تاریخی برابر یا بعد از :date باشد.',

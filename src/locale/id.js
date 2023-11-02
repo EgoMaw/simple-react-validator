@@ -1,5 +1,7 @@
 // Indonesian
-SimpleReactValidator.addLocale('id', {
+import SimpleReactValidator from '../simple-react-validator';
+
+export default SimpleReactValidator.addLocale('id', {
   accepted             : ':attribute harus diterima.',
   after                : ':attribute harus lebih dari :date.',
   after_or_equal       : ':attribute harus lebih dari atau sama dengan :date.',

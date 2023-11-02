@@ -1,5 +1,7 @@
 // Italian
-SimpleReactValidator.addLocale('it', {
+import SimpleReactValidator from '../simple-react-validator';
+
+export default SimpleReactValidator.addLocale('it', {
   accepted             : ':attribute deve essere accettato.',
   after                : ':attribute deve essere successiva a :date.',
   after_or_equal       : ':attribute deve essere successiva o uguale a :date.',

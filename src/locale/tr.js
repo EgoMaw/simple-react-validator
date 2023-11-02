@@ -1,5 +1,7 @@
 // Turkish
-SimpleReactValidator.addLocale('tr', {
+import SimpleReactValidator from '../simple-react-validator';
+
+export default SimpleReactValidator.addLocale('tr', {
   accepted             : ':attribute onaylanmalıdır.',
   after                : ':attribute :date tarihinden sonra olmalıdır.',
   after_or_equal       : ':attribute :date tarihinde veya sonra olmalıdır.',

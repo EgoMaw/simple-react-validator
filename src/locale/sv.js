@@ -1,5 +1,7 @@
  // Swedish
- SimpleReactValidator.addLocale('sv', {
+ import SimpleReactValidator from '../simple-react-validator';
+
+export default SimpleReactValidator.addLocale('sv', {
   accepted             : 'Fält :attribute måste accepteras.',
   after                : 'Fält :attribute måste vara efter :date.',
   after_or_equal       : 'Fält :attribute måste matcha eller vara efter :date.',

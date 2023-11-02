@@ -1,5 +1,7 @@
 // French
-SimpleReactValidator.addLocale('fr', {
+import SimpleReactValidator from '../simple-react-validator';
+
+export default SimpleReactValidator.addLocale('fr', {
   accepted             : 'Le champ :attribute doit être accepté.',
   after                : 'Le champ :attribute doit être après :date.',
   after_or_equal       : 'Le champ :attribute doit correspondre ou bien être après :date.',

@@ -1,5 +1,7 @@
 // Brazilian Portuguesse
-SimpleReactValidator.addLocale('pt', {
+import SimpleReactValidator from '../simple-react-validator';
+
+export default SimpleReactValidator.addLocale('pt', {
   accepted             : ':attribute devem ser aceitos.',
   after                : ':attribute deve ser depois de :date.',
   after_or_equal       : ':attribute deve ser depois ou igual à :date.',

@@ -9,6 +9,16 @@
     "files": [
         "dist"
     ],
+    "exports":{
+        ".": {
+            "import": "./dist/esm/simple-react-validator.js",
+            "require": "./dist/umd/simple-react-validator.js"
+        },
+        "./locale/*": {
+            "import": "./dist/esm/locale/*.js",
+            "require": "./dist/umd/locale/*.js"
+        }
+    },
     "devDependencies": {
         "@babel/core": "^7.23.2",
         "@babel/plugin-transform-class-properties": "^7.22.5",

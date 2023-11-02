@@ -27,15 +27,16 @@ function capitalizeFilename(file) {
 const localeConfigs = glob.sync("src/locale/*.js").map((file) => {
     return {
         input: file,
-        external: ["SimpleReactValidator"],
+        external: [/simple-react-validator/],
         output: [
             {
                 dir: "dist/umd/locale",
                 name: `SimpleReactValidatorLocale${capitalizeFilename(file)}`,
-                format: "umd",
-                globals: {
-                    SimpleReactValidator: "SimpleReactValidator",
+                globals: function (id) {
+                    console.log(id);
+                    return id.endsWith("simple-react-validator") ? "SimpleReactValidator" : id;
                 },
+                format: "umd",
             },
             {
                 dir: "dist/esm/locale",
@@ -108,7 +109,7 @@ export default [
                     },
                 },
             }),
-            dev({ dirs: ["dist", "docs"], spa: "docs/index.html" }),
+            dev({ dirs: ["dist/umd", "docs"], spa: "docs/index.html" }),
         ],
     },
     ...localeConfigs,

@@ -1,5 +1,7 @@
 // Japanese
-SimpleReactValidator.addLocale('ja', {
+import SimpleReactValidator from '../simple-react-validator';
+
+export default SimpleReactValidator.addLocale('ja', {
   accepted             : ':attributeを受け入れる必要があります。',
   after                : ':attributeは:dateより後でなければなりません。',
   after_or_equal       : ':attributeは:date以降である必要があります。',
