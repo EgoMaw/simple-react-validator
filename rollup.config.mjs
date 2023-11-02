@@ -33,7 +33,6 @@ const localeConfigs = glob.sync("src/locale/*.js").map((file) => {
                 dir: "dist/umd/locale",
                 name: `SimpleReactValidatorLocale${capitalizeFilename(file)}`,
                 globals: function (id) {
-                    console.log(id);
                     return id.endsWith("simple-react-validator") ? "SimpleReactValidator" : id;
                 },
                 format: "umd",
