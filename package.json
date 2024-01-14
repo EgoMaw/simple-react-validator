@@ -1,6 +1,6 @@
 {
     "name": "@egomaw/react-validator",
-    "version": "1.4.1",
+    "version": "1.4.2",
     "description": "A simple react form validator inspired by Laravel validation.",
     "author": "Kimon \"EgoMaw\" <evolverebxgsafe@gmail.com>",
     "bugs": "https://github.com/EgoMaw/simple-react-validator/issues",
