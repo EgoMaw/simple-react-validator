@@ -1,8 +1,8 @@
-import dev from "rollup-plugin-dev";
 import copy from "rollup-plugin-copy";
 import { babel } from "@rollup/plugin-babel";
 import replace from "@rollup/plugin-replace";
 import { uglify } from "rollup-plugin-uglify";
+import serve from "rollup-plugin-serve";
 
 import { glob } from "glob";
 import path from "node:path";
@@ -45,7 +45,6 @@ const localeConfigs = glob.sync("src/locale/*.js").map((file) => {
         plugins: [
             babel({
                 exclude: "node_modules/**",
-                configFile: "./.babelrc",
                 babelHelpers: "bundled",
             }),
             uglify({
@@ -92,7 +91,6 @@ export default [
             }),
             babel({
                 exclude: "node_modules/**",
-                configFile: "./.babelrc",
                 babelHelpers: "bundled",
             }),
             uglify({
@@ -108,7 +106,7 @@ export default [
                     },
                 },
             }),
-            dev({ dirs: ["dist/umd", "docs"], spa: "docs/index.html" }),
+            serve({ contentBase: ['docs', 'dist'] }),
         ],
     },
     ...localeConfigs,

@@ -2,6 +2,9 @@
     "name": "@egomaw/react-validator",
     "version": "1.4.1",
     "description": "A simple react form validator inspired by Laravel validation.",
+    "author": "Kimon \"EgoMaw\" <evolverebxgsafe@gmail.com>",
+    "bugs": "https://github.com/EgoMaw/simple-react-validator/issues",
+    "homepage": "https://github.com/EgoMaw/simple-react-validator#readme",
     "type": "module",
     "types": "dist/index.d.ts",
     "main": "dist/umd/simple-react-validator.js",
@@ -9,7 +12,7 @@
     "files": [
         "dist"
     ],
-    "exports":{
+    "exports": {
         ".": {
             "import": "./dist/esm/simple-react-validator.js",
             "require": "./dist/umd/simple-react-validator.js"
@@ -19,29 +22,31 @@
             "require": "./dist/umd/locale/*.js"
         }
     },
-    "devDependencies": {
-        "@babel/core": "^7.23.2",
-        "@babel/plugin-transform-class-properties": "^7.22.5",
-        "@babel/plugin-transform-object-rest-spread": "^7.22.15",
-        "@babel/preset-env": "^7.23.2",
-        "@rollup/plugin-babel": "^6.0.4",
-        "@rollup/plugin-replace": "^5.0.5",
-        "@rollup/plugin-strip": "^3.0.4",
-        "glob": "^10.3.10",
-        "lodash-es": "^4.17.21",
-        "rimraf": "^5.0.5",
-        "rollup": "^4.2.0",
-        "rollup-plugin-copy": "^3.5.0",
-        "rollup-plugin-dev": "^2.0.4",
-        "rollup-plugin-multi-input": "^1.4.1",
-        "rollup-plugin-uglify": "^6.0.4"
-    },
-    "engines": {
-        "node": ">=18"
-    },
     "scripts": {
         "dist": "pnpm rimraf dist/ && pnpm rollup -c",
         "dev": "pnpm rollup -c -w"
+    },
+    "peerDependencies": {
+        "react": "16 - 18"
+    },
+    "devDependencies": {
+        "@babel/core": "^7.23.7",
+        "@babel/preset-env": "^7.23.8",
+        "@rollup/plugin-babel": "^6.0.4",
+        "@rollup/plugin-replace": "^5.0.5",
+        "glob": "^10.3.10",
+        "lodash-es": "^4.17.21",
+        "nitropack": "^2.8.1",
+        "react": "16 - 18",
+        "rimraf": "^5.0.5",
+        "rollup": "^4.9.5",
+        "rollup-plugin-copy": "^3.5.0",
+        "rollup-plugin-serve": "^3.0.0",
+        "rollup-plugin-uglify": "^6.0.4",
+        "typescript": "^5.3.3"
+    },
+    "engines": {
+        "node": ">=18"
     },
     "repository": {
         "type": "git",
@@ -54,13 +59,8 @@
         "form-validator",
         "react-validator"
     ],
-    "author": "Kimon \"EgoMaw\" <evolverebxgsafe@gmail.com>",
     "browserslist": [
-        ">0.3%, defaults"
+        "defaults"
     ],
-    "license": "MIT",
-    "bugs": {
-        "url": "https://github.com/EgoMaw/simple-react-validator/issues"
-    },
-    "homepage": "https://github.com/EgoMaw/simple-react-validator#readme"
+    "license": "MIT"
 }

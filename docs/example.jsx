@@ -64,7 +64,7 @@ class ExampleForm extends React.Component {
                 <div className="card-body">
                     <h3>Example Form</h3>
                     <p className="text-muted">
-                        Click submit to view messages. Testing SimpleReactValidator v<span className="text-info fw-bold">{SimpleReactValidator.version}</span>
+                        Click submit to view messages. Testing SimpleReactValidator v<span className="text-danger fw-bold">{SimpleReactValidator.version}</span>
                     </p>
                     <hr />
                     <div className="row">
@@ -127,7 +127,7 @@ class ExampleForm extends React.Component {
                         ),
                     })}
 
-                    <button className="btn btn-primary" onClick={this.submitForm.bind(this)}>
+                    <button className="btn btn-primary mt-2" onClick={this.submitForm.bind(this)}>
                         Submit
                     </button>
                 </div>

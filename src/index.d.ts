@@ -9,7 +9,7 @@ interface IOptions {
     autoForceUpdate?: any;
     element?: any;
     locale?: string;
-    humanizeField?: boolean | ((string) => string);
+    humanizeField?: boolean | ((arg0: string) => string);
 }
 
 type IRule =
@@ -83,7 +83,6 @@ declare class SimpleReactValidator {
     static locales: IObject;
     static version: string;
     fields: IObject;
-    savedFields: IObject;
     visibleFields: any[];
     errorMessages: IObject;
     messagesShown: boolean;
