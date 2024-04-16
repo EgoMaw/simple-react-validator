@@ -1,6 +1,6 @@
 {
     "name": "@egomaw/react-validator",
-    "version": "1.4.2",
+    "version": "1.4.3",
     "description": "A simple react form validator inspired by Laravel validation.",
     "author": "Kimon \"EgoMaw\" <evolverebxgsafe@gmail.com>",
     "bugs": "https://github.com/EgoMaw/simple-react-validator/issues",
@@ -23,27 +23,25 @@
         }
     },
     "scripts": {
-        "dist": "pnpm rimraf dist/ && pnpm rollup -c",
-        "dev": "pnpm rollup -c -w"
+        "dist": "pnpm rimraf dist/ && pnpm rollup -c --environment BUILD:production",
+        "dev": "pnpm rollup -c -w --environment BUILD:development"
     },
     "peerDependencies": {
         "react": "16 - 18"
     },
     "devDependencies": {
-        "@babel/core": "^7.23.7",
-        "@babel/preset-env": "^7.23.8",
+        "@babel/core": "^7.24.4",
+        "@babel/preset-env": "^7.24.4",
         "@rollup/plugin-babel": "^6.0.4",
         "@rollup/plugin-replace": "^5.0.5",
-        "glob": "^10.3.10",
+        "esbuild": "^0.20.2",
+        "glob": "^10.3.12",
         "lodash-es": "^4.17.21",
-        "nitropack": "^2.8.1",
-        "react": "16 - 18",
         "rimraf": "^5.0.5",
-        "rollup": "^4.9.5",
+        "rollup": "^4.14.3",
         "rollup-plugin-copy": "^3.5.0",
-        "rollup-plugin-serve": "^3.0.0",
-        "rollup-plugin-uglify": "^6.0.4",
-        "typescript": "^5.3.3"
+        "rollup-plugin-esbuild": "^6.1.1",
+        "rollup-plugin-serve": "^3.0.0"
     },
     "engines": {
         "node": ">=18"

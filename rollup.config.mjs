@@ -1,13 +1,15 @@
 import copy from "rollup-plugin-copy";
 import { babel } from "@rollup/plugin-babel";
 import replace from "@rollup/plugin-replace";
-import { uglify } from "rollup-plugin-uglify";
+import { minify } from "rollup-plugin-esbuild";
 import serve from "rollup-plugin-serve";
 
 import { glob } from "glob";
 import path from "node:path";
 import { camelCase, upperFirst } from "lodash-es";
 import pack from "./package.json" assert { type: "json" };
+
+const isDev = process.env.BUILD === "development";
 
 
 const defaultBuildOptions = {
@@ -47,23 +49,15 @@ const localeConfigs = glob.sync("src/locale/*.js").map((file) => {
                 exclude: "node_modules/**",
                 babelHelpers: "bundled",
             }),
-            uglify({
-                mangle: true,
-                output: {
-                    comments: function (node, comment) {
-                        if (comment.type === "comment2") {
-                            // multiline comment
-                            return /@preserve|@license|@cc_on|simple react validator/i.test(comment.value);
-                        }
-
-                        return false;
-                    },
-                },
+            minify({
+                banner: `/** Simple React Validator v${pack.version} | Created By Dockwa | Edited by EgoMaw | MIT License | 2017 - Present */`
             }),
         ],
     };
 });
-
+/**
+ * @type {import('rollup').RollupOptions}
+ */
 export default [
     {
         input: "src/simple-react-validator.js",
@@ -93,20 +87,10 @@ export default [
                 exclude: "node_modules/**",
                 babelHelpers: "bundled",
             }),
-            uglify({
-                mangle: true,
-                output: {
-                    comments: function (node, comment) {
-                        if (comment.type === "comment2") {
-                            // multiline comment
-                            return /@preserve|@license|@cc_on|simple react validator/i.test(comment.value);
-                        }
-
-                        return false;
-                    },
-                },
+            minify({
+                banner: `/** Simple React Validator v${pack.version} | Created By Dockwa | Edited by EgoMaw | MIT License | 2017 - Present */`
             }),
-            serve({ contentBase: ['docs', 'dist'] }),
+            isDev && serve({ contentBase: ['docs', 'dist'], verbose: true }),
         ],
     },
     ...localeConfigs,
